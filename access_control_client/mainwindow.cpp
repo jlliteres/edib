@@ -28,7 +28,7 @@ void MainWindow::init_server(QString url)
                 std::cout << msg->str << std::endl;
 
                 JSON receivedObject = JSON::parse(msg->str, nullptr, false);
-                if(receivedObject["error"] = 0)
+                if(receivedObject["error"] == 0)
                 {
                     std::cout << "ENTER" << std::endl;
 
