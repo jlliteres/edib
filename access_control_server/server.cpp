@@ -11,11 +11,11 @@ void Server::init_server()
     ix::WebSocketServer server(9900, "0.0.0.0");
 
     server.setOnConnectionCallback(
-        [&server](std::shared_ptr<ix::WebSocket> webSocket,
+        [&server, this](std::shared_ptr<ix::WebSocket> webSocket,
                   std::shared_ptr<ix::ConnectionState> connectionState)
         {
             webSocket->setOnMessageCallback(
-                [webSocket, connectionState, &server](const ix::WebSocketMessagePtr msg)
+                [webSocket, connectionState, &server, this](const ix::WebSocketMessagePtr msg)
                 {
                     if (msg->type == ix::WebSocketMessageType::Open)
                     {
@@ -33,13 +33,18 @@ void Server::init_server()
                             /// Text format
 
                             std::cout << "Received message: " << msg->str << std::endl;
-                            JSON message;
-                            message["action"] = "register";
-                            message["id"] = "1";
-                            message["passID"] = "1234";
-                            message["response"] = "Entry Confirmed";
 
-                            webSocket->send(message.dump());
+                            JSON receivedObject = JSON::parse(msg->str, nullptr, false);
+
+                            JSON response;
+                            response["action"] = "register";
+                            response["clientID"] = receivedObject["clientID"];
+                            response["serverID"] = serverID++;
+                            response["passID"] = "1234";
+                            response["response"] = "Entry Confirmed";
+                            response["error"] = 0;
+
+                            webSocket->send(response.dump());
                         }
                     }
                 }

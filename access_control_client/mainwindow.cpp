@@ -26,6 +26,13 @@ void MainWindow::init_server(QString url)
             if (msg->type == ix::WebSocketMessageType::Message)
             {
                 std::cout << msg->str << std::endl;
+
+                JSON receivedObject = JSON::parse(msg->str, nullptr, false);
+                if(receivedObject["error"] = 0)
+                {
+                    std::cout << "ENTER" << std::endl;
+
+                }
                 add_log(QString::fromStdString(msg->str));
             }
         }
@@ -54,7 +61,7 @@ void MainWindow::on_btnSend_clicked()
 {
     JSON message;
     message["action"] = "register";
-    message["id"] = "1";
+    message["clientID"] = clientID++;
     message["passID"] = "1234";
     std::cout << message.dump() << std::endl;
     m_webSocket.send(message.dump());

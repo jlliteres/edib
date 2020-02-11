@@ -31,6 +31,8 @@ private:
     ix::WebSocket m_webSocket;
     QString serverUrl{"ws://localhost:9900/"};
 
+    int clientID{1};
+
     void add_log(QString item);
     void init_server(QString url);
 

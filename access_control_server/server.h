@@ -16,7 +16,7 @@ public:
     void init_server();
 
 private:
-
+    int serverID{1};
 };
 
 #endif // SERVER_H
