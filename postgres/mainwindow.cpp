@@ -1,15 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QSqlDatabase>
-#include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
+#include <QSqlQuery>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    m_ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
     db.setHostName("localhost");
@@ -19,27 +19,27 @@ MainWindow::MainWindow(QWidget *parent) :
     db.setPassword("");
     bool isOK = db.open();
 
-    qDebug() << db.lastError().text();
+    //qDebug() << db.lastError().text();
 
     qDebug() << isOK;
 
     QSqlQuery query;
-    query.exec("SELECT * from matricula;");
+    query.exec("SELECT * FROM matricula");
 
-    while(query.next())
+    while (query.next())
     {
-        int matriculaId = query.value(0).toInt();
-        QString matricula = query.value(1).toString().simplified();
-        qDebug() << matriculaId << matricula;
+        int id = query.value(0).toInt();
+        QString name = query.value(1).toString().simplified();
+
+
+        qDebug() << id << name;
     }
 
     db.close();
-
-    QSqlDatabase::removeDatabase("QPSQL");
 
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    delete m_ui;
 }
