@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT += sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = access_control_server
@@ -27,12 +27,16 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    server.cpp
+    server.cpp \
+    handler.cpp \
+    database.cpp
 
 HEADERS += \
         mainwindow.h \
     json.hpp \
-    server.h
+    server.h \
+    handler.h \
+    database.h
 
 FORMS += \
         mainwindow.ui

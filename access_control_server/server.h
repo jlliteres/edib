@@ -17,6 +17,8 @@ public:
 
 private:
     int serverID{1};
+    bool exists(const JSON&, const std::string&);
+
 };
 
 #endif // SERVER_H

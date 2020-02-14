@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "json.hpp"
-
-using JSON = nlohmann::json;
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,7 +8,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     m_ui->setupUi(this);
     m_ui->btnClose->setEnabled(false);
+    m_ui->btnSend->setEnabled(false);
     m_ui->btnOpen->setEnabled(true);
+
+    m_serverUrl = "ws://localhost:9900/";
 }
 
 MainWindow::~MainWindow()
@@ -23,16 +24,35 @@ void MainWindow::init_server(QString url)
     m_webSocket.setUrl(url.toStdString());
     m_webSocket.setOnMessageCallback([this](const ix::WebSocketMessagePtr& msg)
         {
+            if (msg->type == ix::WebSocketMessageType::Open)
+            {
+                m_ui->btnClose->setEnabled(true);
+                m_ui->btnOpen->setEnabled(false);
+                m_ui->btnSend->setEnabled(true);
+
+            }
+
             if (msg->type == ix::WebSocketMessageType::Message)
             {
                 std::cout << msg->str << std::endl;
 
                 JSON receivedObject = JSON::parse(msg->str, nullptr, false);
-                if(receivedObject["error"] == 0)
-                {
-                    std::cout << "ENTER" << std::endl;
 
+                if(receivedObject.is_discarded())
+                {
+                    qDebug() << "JSON no válido";
                 }
+                else
+                {///JSON válido
+                    if(exists(receivedObject,"error"))
+                    {
+                        if(receivedObject["error"] == 0)
+                        {
+                            qDebug() << "ENTER";
+                        }//end if
+                    }//end if
+                }//end if
+
                 add_log(QString::fromStdString(msg->str));
             }
         }
@@ -40,7 +60,12 @@ void MainWindow::init_server(QString url)
 
     m_webSocket.start();
 
-    add_log("Connection open: " + url);
+    //add_log("Connection open: " + url);
+}
+
+bool MainWindow::exists(const JSON& json, const std::string& key)
+{
+    return json.find(key) != json.end();
 }
 
 void MainWindow::add_log(QString item)
@@ -52,8 +77,10 @@ void MainWindow::add_log(QString item)
 void MainWindow::on_btnClose_clicked()
 {
     m_webSocket.stop();
+    clientID = 1;
     add_log("Connection closed");
     m_ui->btnClose->setEnabled(false);
+    m_ui->btnSend->setEnabled(false);
     m_ui->btnOpen->setEnabled(true);
 }
 
@@ -69,8 +96,6 @@ void MainWindow::on_btnSend_clicked()
 
 void MainWindow::on_btnOpen_clicked()
 {
-    init_server(serverUrl);
-    m_ui->btnClose->setEnabled(true);
-    m_ui->btnOpen->setEnabled(false);
+    init_server(m_serverUrl);
 
 }

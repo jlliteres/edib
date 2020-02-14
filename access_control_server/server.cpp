@@ -1,5 +1,6 @@
 #include "server.h"
-
+#include "handler.h"
+#include <QDebug>
 
 Server::Server()
 {
@@ -19,6 +20,7 @@ void Server::init_server()
                 {
                     if (msg->type == ix::WebSocketMessageType::Open)
                     {
+                        webSocket->send("Connection open");
                         std::cout << "New connection" << std::endl;
 
                     }
@@ -34,17 +36,33 @@ void Server::init_server()
 
                             std::cout << "Received message: " << msg->str << std::endl;
 
+                            ///1) Get data
+
                             JSON receivedObject = JSON::parse(msg->str, nullptr, false);
+                            if(receivedObject.is_discarded())
+                            {
+                                qDebug() << "JSON isn't valid";
+                            }
+                            else
+                            {///JSON is valid
 
-                            JSON response;
-                            response["action"] = "register";
-                            response["clientID"] = receivedObject["clientID"];
-                            response["serverID"] = serverID++;
-                            response["passID"] = "1234";
-                            response["response"] = "Entry Confirmed";
-                            response["error"] = 0;
+                            ///2) Data treatment
+                                if(exists(receivedObject, "action"))
+                                {
+                                    std::string action = receivedObject["action"];
+                                    Handler handler;
 
-                            webSocket->send(response.dump());
+
+                                    JSON response = handler.responseHandler(receivedObject);
+
+
+                                    response["serverID"] = serverID++;
+
+
+                                    webSocket->send(response.dump());
+
+                                }//end if
+                            }//end if
                         }
                     }
                 }
@@ -63,4 +81,9 @@ void Server::init_server()
     server.start();
     server.wait();
     server.stop();
+}
+
+bool Server::exists(const JSON& json, const std::string& key)
+{
+    return json.find(key) != json.end();
 }

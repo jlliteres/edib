@@ -6,7 +6,9 @@
 #include "ixwebsocket/IXWebSocketServer.h"
 #include "ixwebsocket/IXWebSocket.h"
 #include "ixwebsocket/IXConnectionState.h"
+#include "json.hpp"
 
+using JSON = nlohmann::json;
 
 namespace Ui {
 class MainWindow;
@@ -23,13 +25,13 @@ public:
 private slots:
     void on_btnClose_clicked();
     void on_btnSend_clicked();
-
+    bool exists(const JSON&, const std::string&);
     void on_btnOpen_clicked();
 
 private:
     Ui::MainWindow *m_ui;
     ix::WebSocket m_webSocket;
-    QString serverUrl{"ws://localhost:9900/"};
+    QString m_serverUrl{""};
 
     int clientID{1};
 
