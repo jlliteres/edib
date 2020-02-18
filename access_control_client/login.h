@@ -14,6 +14,8 @@ class Login : public QDialog
 public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
+    std::string user();
+    std::string password();
 
 private slots:
     void on_buttonBox_accepted();

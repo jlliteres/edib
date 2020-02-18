@@ -20,9 +20,13 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
     {
         responseJSON = regist(responseJSON);
     }
-    else if (action == "")
+    else if (action == "load")
     {
-
+        responseJSON = load(responseJSON);
+    }
+    else if (action == "login")
+    {
+        responseJSON = login(responseJSON);
     }
     else if (action == "")
     {
@@ -32,10 +36,33 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
     {
 
     }
-    else if (action == "")
-    {
 
+    return responseJSON;
+}
+
+
+JSON Handler::login(const JSON& responseJSON)
+{
+    Database db;
+    JSON dbJSON = responseJSON;
+
+    ///No valid login, error = 1
+    if(db.login(QString::fromStdString(responseJSON["password"])))
+    {
+        dbJSON["error"] = 0;
     }
+    else
+    {
+        dbJSON["error"] = 1;
+    }
+
+    return dbJSON;
+}
+
+JSON Handler::load(const JSON& responseJSON)
+{
+    Database db;
+    db.load();
 
     return responseJSON;
 }

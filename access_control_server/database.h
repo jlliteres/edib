@@ -12,7 +12,8 @@ class Database
 {
 public:
     Database();
-    bool load(const std::string);
+    JSON load();
+    bool login(const QString);
     QSqlDatabase m_database;
 };
 

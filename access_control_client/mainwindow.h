@@ -18,9 +18,6 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public slots:
-    void fillTable(QString item);
-
 public:
     explicit MainWindow(QWidget *parent = nullptr);
 

@@ -12,6 +12,9 @@ public:
 
 private:
     JSON regist(const JSON&);
+    JSON load(const JSON&);
+    JSON login(const JSON&);
+
 };
 
 #endif // HANDLER_H
