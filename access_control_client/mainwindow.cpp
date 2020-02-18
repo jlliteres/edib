@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "login.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -7,9 +8,14 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
+
+    this->setWindowTitle("Access Control");
     m_ui->btnClose->setEnabled(false);
     m_ui->btnSend->setEnabled(false);
     m_ui->btnOpen->setEnabled(true);
+    m_ui->btnAdd->setEnabled(false);
+    m_ui->btnDelete->setEnabled(false);
+    m_ui->actionS_tatus->setEnabled(false);
 
     m_serverUrl = "ws://localhost:9900/";
 }
@@ -73,11 +79,15 @@ void MainWindow::add_log(QString item)
     m_ui->log->addItem(item);
 }
 
+void MainWindow::fillTable(QString item)
+{
+    add_log(item);
+}
 
 void MainWindow::on_btnClose_clicked()
 {
     m_webSocket.stop();
-    clientID = 1;
+    m_clientID = 1;
     add_log("Connection closed");
     m_ui->btnClose->setEnabled(false);
     m_ui->btnSend->setEnabled(false);
@@ -88,7 +98,7 @@ void MainWindow::on_btnSend_clicked()
 {
     JSON message;
     message["action"] = "register";
-    message["clientID"] = clientID++;
+    message["clientID"] = m_clientID++;
     message["passID"] = "1234";
     std::cout << message.dump() << std::endl;
     m_webSocket.send(message.dump());
@@ -98,4 +108,35 @@ void MainWindow::on_btnOpen_clicked()
 {
     init_server(m_serverUrl);
 
+}
+
+void MainWindow::on_btnLock_clicked()
+{
+   if(m_isLocked)
+   {
+       Login *login = new Login();
+
+       login->setModal(true);
+
+
+       if (login->exec() == QDialog::Accepted)
+       {
+           m_ui->btnLock->setText("Lock");
+           m_ui->btnAdd->setEnabled(true);
+           m_ui->btnDelete->setEnabled(true);
+           m_ui->actionS_tatus->setEnabled(true);
+           m_isLocked = false;
+       }
+
+   }
+   else
+   {
+       m_ui->btnLock->setText("Unlock...");
+       m_isLocked = true;
+   }
+}
+
+void MainWindow::on_action_Exit_triggered()
+{
+    QCoreApplication::quit();
 }

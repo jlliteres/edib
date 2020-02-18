@@ -18,8 +18,12 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+public slots:
+    void fillTable(QString item);
+
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 private slots:
@@ -28,12 +32,16 @@ private slots:
     bool exists(const JSON&, const std::string&);
     void on_btnOpen_clicked();
 
+    void on_btnLock_clicked();
+
+    void on_action_Exit_triggered();
+
 private:
     Ui::MainWindow *m_ui;
     ix::WebSocket m_webSocket;
     QString m_serverUrl{""};
-
-    int clientID{1};
+    int m_clientID{1};
+    bool m_isLocked{true};
 
     void add_log(QString item);
     void init_server(QString url);

@@ -8,7 +8,7 @@ class Handler
 {
 public:
     Handler();
-    JSON responseHandler(const JSON&);
+    JSON responseHandler(const JSON&, const int);
 
 private:
     JSON regist(const JSON&);

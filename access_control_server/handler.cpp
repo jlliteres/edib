@@ -7,12 +7,13 @@ Handler::Handler()
 
 }
 
-JSON Handler::responseHandler(const JSON& receivedJSON)
+JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
 {
     ///1) Get data
-    JSON responseJSON = {
-        {"clientID", receivedJSON["clientID"]},
-    };
+    JSON responseJSON;
+    responseJSON["clientID"] = receivedJSON["clientID"];
+    responseJSON["serverID"] = serverID;
+
     std::string action = receivedJSON["action"];
     ///2) Data treatment
     if( action == "register")

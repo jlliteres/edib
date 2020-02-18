@@ -39,6 +39,7 @@ void Server::init_server()
                             ///1) Get data
 
                             JSON receivedObject = JSON::parse(msg->str, nullptr, false);
+
                             if(receivedObject.is_discarded())
                             {
                                 qDebug() << "JSON isn't valid";
@@ -52,12 +53,7 @@ void Server::init_server()
                                     std::string action = receivedObject["action"];
                                     Handler handler;
 
-
-                                    JSON response = handler.responseHandler(receivedObject);
-
-
-                                    response["serverID"] = serverID++;
-
+                                    JSON response = handler.responseHandler(receivedObject, serverID++);
 
                                     webSocket->send(response.dump());
 

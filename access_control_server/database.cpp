@@ -19,9 +19,10 @@ bool Database::load(const std::string key)
     qDebug() << isOK;
 
     QSqlQuery query;
-    /*query.prepare("SELECT * from matricula WHERE matricula = ?;");
+    query.prepare("SELECT * from matricula WHERE matricula = ?;");
     query.addBindValue(QString::fromStdString(key));
-    query.exec();
+
+    /*query.exec();
     while(query.next())
     {
         if(query.size() > 0) return true;
