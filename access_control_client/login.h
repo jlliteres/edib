@@ -2,6 +2,7 @@
 #define LOGIN_H
 
 #include <QDialog>
+#include <QDebug>
 
 namespace Ui {
 class Login;
@@ -18,7 +19,6 @@ public:
     std::string password();
 
 private slots:
-    void on_buttonBox_accepted();
 
 private:
     Ui::Login *m_ui;

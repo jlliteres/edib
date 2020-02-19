@@ -6,7 +6,7 @@ Login::Login(QWidget *parent) :
     m_ui(new Ui::Login)
 {
     m_ui->setupUi(this);
-    this->setWindowTitle("Login");
+    this->setWindowTitle("Admin Login");
 }
 
 Login::~Login()
@@ -14,7 +14,12 @@ Login::~Login()
     delete m_ui;
 }
 
-void Login::on_buttonBox_accepted()
+std::string Login::user()
 {
+    return m_ui->user->text().toStdString();
+}
 
+std::string Login::password()
+{
+    return m_ui->password->text().toStdString();
 }

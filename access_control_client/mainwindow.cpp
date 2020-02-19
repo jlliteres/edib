@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ui->btnAdd->setEnabled(false);
     m_ui->btnDelete->setEnabled(false);
     m_ui->actionS_tatus->setEnabled(false);
-
     m_serverUrl = "ws://localhost:9900/";
 }
 
@@ -108,19 +107,23 @@ void MainWindow::on_btnOpen_clicked()
 
 void MainWindow::on_btnLock_clicked()
 {
+
+///Open login dialog
    if(m_isLocked)
    {
-       Login *login = new Login();
 
+       Login *login{new Login()};
+       login->show();
        login->setModal(true);
 
-
        connect(login, &Login::accepted, [this, login](){
+
            JSON loginJSON;
            loginJSON["clientID"] = m_clientID++;
            loginJSON["action"] = "login";
            loginJSON["user"] = login->user();
            loginJSON["password"] = login->password();
+           qDebug() << QString::fromStdString(loginJSON.dump());
 
            m_webSocket.send(loginJSON.dump());
 

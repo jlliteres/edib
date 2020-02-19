@@ -2,6 +2,7 @@
 
 Database::Database()
 {
+
     m_database = QSqlDatabase::addDatabase("QPSQL");
     m_database.setHostName("localhost");
     m_database.setDatabaseName("prueba");
@@ -10,28 +11,36 @@ Database::Database()
     m_database.setPassword("");
 }
 
-bool Database::login(const QString password)
+bool Database::login(const std::string logUser, const std::string logPassword)
 {
-    bool isOK = m_database.open();
+    return true;
+    /*QString user = QString::fromStdString(logUser);
+    QString password = QString::fromStdString(logPassword);
+
     bool result{false};
+    qDebug() << user << " " << password;
+    bool isOK = m_database.open();
     JSON dbJSON;
     qDebug() << m_database.lastError().text();
 
     qDebug() << isOK;
 
-    QSqlQuery query;
-    query.prepare("SELECT * from login WHERE password = crypt(?, password);");
-    query.addBindValue(password);
-
-    query.exec();
-
-    if(query.size() == 1)
+    if(isOK)
     {
-       result = true;
-    }
+        QSqlQuery query;
+        query.prepare("SELECT * from login WHERE username = ? AND password = crypt(?, password);");
+        query.addBindValue(user);
+        query.addBindValue(password);
 
+        query.exec();
+
+        if(query.size() == 1)
+        {
+           result = true;
+        }
+    }//end if
     m_database.close();
-    return result;
+    return result;*/
 }
 
 JSON Database::load()
@@ -41,19 +50,21 @@ JSON Database::load()
     qDebug() << m_database.lastError().text();
 
     qDebug() << isOK;
-
-    QSqlQuery query;
-    query.prepare("SELECT * from matricula;");
-    //query.addBindValue(QString::fromStdString(key));
-
-    query.exec();
-    while(query.next())
+    if(isOK)
     {
-        QString value = query.value(1).toString();
-        qDebug() << value;
-        //dbJSON["user"] += value.toStdString();
-    }
+        QSqlQuery query;
+        query.prepare("SELECT * from matricula;");
+        //query.addBindValue(QString::fromStdString(key));
 
+        query.exec();
+        dbJSON["size"] = query.size();
+        while(query.next())
+        {
+            QString value = query.value(1).toString();
+            qDebug() << value;
+            //dbJSON["user"] += value.toStdString();
+        }
+    }//end if
     m_database.close();
 
     return dbJSON;

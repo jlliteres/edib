@@ -25,7 +25,7 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
         responseJSON = load(responseJSON);
     }
     else if (action == "login")
-    {
+    {       
         responseJSON = login(responseJSON);
     }
     else if (action == "")
@@ -41,13 +41,15 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
 }
 
 
-JSON Handler::login(const JSON& responseJSON)
+JSON Handler::login(JSON responseJSON)
 {
+    qDebug() << "Login Handler";
     Database db;
     JSON dbJSON = responseJSON;
+    dbJSON["action"] = "login";
 
     ///No valid login, error = 1
-    if(db.login(QString::fromStdString(responseJSON["password"])))
+    if(db.login(responseJSON["user"], responseJSON["password"]))
     {
         dbJSON["error"] = 0;
     }
