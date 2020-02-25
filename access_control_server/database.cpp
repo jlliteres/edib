@@ -17,7 +17,6 @@ bool Database::admin(const std::string logUser, const std::string logPassword)
     QString password = QString::fromStdString(logPassword);
 
     bool result{false};
-    qDebug() << user << " " << password;
     bool isOK = m_database.open();
     JSON dbJSON;
     qDebug() << m_database.lastError().text();
@@ -36,7 +35,7 @@ bool Database::admin(const std::string logUser, const std::string logPassword)
         if(query.size() == 1)
         {
            result = true;
-        }
+        }//end if
     }//end if
     m_database.close();
     return result;
