@@ -27,12 +27,14 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    login.cpp
+    login.cpp \
+    handler.cpp
 
 HEADERS += \
         mainwindow.h \
     json.hpp \
-    login.h
+    login.h \
+    handler.h
 
 FORMS += \
         mainwindow.ui \

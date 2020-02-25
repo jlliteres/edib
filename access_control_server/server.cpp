@@ -50,7 +50,6 @@ void Server::init_server()
                             ///2) Data treatment
                                 if(exists(receivedObject, "action"))
                                 {
-                                    std::string action = receivedObject["action"];
                                     Handler handler;
 
                                     JSON response = handler.responseHandler(receivedObject, serverID++);

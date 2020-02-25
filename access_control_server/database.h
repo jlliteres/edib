@@ -13,7 +13,7 @@ class Database
 public:
     Database();
     JSON load();
-    bool login(const std::string, const std::string);
+    bool admin(const std::string, const std::string);
     QSqlDatabase m_database;
 };
 

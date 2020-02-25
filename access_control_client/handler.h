@@ -1,6 +1,8 @@
 #ifndef HANDLER_H
 #define HANDLER_H
 #include "json.hpp"
+#include "mainwindow.h"
+
 
 using JSON = nlohmann::json;
 
@@ -8,7 +10,7 @@ class Handler
 {
 public:
     Handler();
-    JSON responseHandler(const JSON&, const int);
+    void responseHandler(const JSON&, MainWindow&);
 
 private:
     JSON regist(const JSON&);

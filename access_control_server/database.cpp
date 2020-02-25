@@ -11,10 +11,9 @@ Database::Database()
     m_database.setPassword("");
 }
 
-bool Database::login(const std::string logUser, const std::string logPassword)
+bool Database::admin(const std::string logUser, const std::string logPassword)
 {
-    return true;
-    /*QString user = QString::fromStdString(logUser);
+    QString user = QString::fromStdString(logUser);
     QString password = QString::fromStdString(logPassword);
 
     bool result{false};
@@ -40,7 +39,7 @@ bool Database::login(const std::string logUser, const std::string logPassword)
         }
     }//end if
     m_database.close();
-    return result;*/
+    return result;
 }
 
 JSON Database::load()
@@ -48,20 +47,26 @@ JSON Database::load()
     bool isOK = m_database.open();
     JSON dbJSON;
     qDebug() << m_database.lastError().text();
-
     qDebug() << isOK;
+
     if(isOK)
     {
+        dbJSON["user"] = JSON::array();
         QSqlQuery query;
         query.prepare("SELECT * from matricula;");
         //query.addBindValue(QString::fromStdString(key));
 
         query.exec();
-        dbJSON["size"] = query.size();
         while(query.next())
         {
-            QString value = query.value(1).toString();
-            qDebug() << value;
+            JSON queryJSON;
+            int id = query.value(0).toInt();
+            QString name = query.value(1).toString().simplified();
+            queryJSON["userID"] = id;
+            queryJSON["name"] = name.toStdString();
+
+            dbJSON["user"].insert(dbJSON["user"].end(), queryJSON);
+
             //dbJSON["user"] += value.toStdString();
         }
     }//end if

@@ -1,32 +1,38 @@
 #include "handler.h"
-#include "database.h"
 #include <QString>
+#include <QMessageBox>
 
 Handler::Handler()
 {
 
 }
 
-JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
+void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
 {
     ///1) Get data
-    JSON responseJSON;
-    responseJSON["clientID"] = receivedJSON["clientID"];
-    responseJSON["serverID"] = serverID;
+
 
     std::string action = receivedJSON["action"];
     ///2) Data treatment
-    if( action == "register")
+    if(action == "register")
     {
-        responseJSON = regist(responseJSON);
     }
     else if (action == "load")
     {
-        responseJSON = load(responseJSON);
     }
     else if (action == "admin")
     {
-        responseJSON = admin(responseJSON, receivedJSON["user"], receivedJSON["password"]);
+        if(receivedJSON["error"] == 0)
+        {
+            main.unlock();
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Invalid admin credentials");
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.exec();
+        }//end if
     }
     else if (action == "")
     {
@@ -37,18 +43,16 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
 
     }
 
-    return responseJSON;
 }
 
 
 JSON Handler::admin(JSON responseJSON, std::string user, std::string password)
 {
-    Database db;
     JSON dbJSON = responseJSON;
     dbJSON["action"] = "admin";
 
     ///No valid login, error = 1
-    if(db.admin(user, password))
+    if(true)
     {
         dbJSON["error"] = 0;
     }
@@ -62,13 +66,8 @@ JSON Handler::admin(JSON responseJSON, std::string user, std::string password)
 
 JSON Handler::load(const JSON& responseJSON)
 {
-    Database db;
-    JSON dbJSON = responseJSON;
-    dbJSON["action"] = "load";
 
-    dbJSON["list"] = db.load();
-
-    return dbJSON;
+    return responseJSON;
 }
 
 JSON Handler::regist(const JSON& responseJSON)
