@@ -14,14 +14,13 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
 {
     ///1) Get data
 
-
     std::string action = receivedJSON["action"];
     ///2) Data treatment
     if(action == "enter")
     {
         if(receivedJSON["error"] == 0)
         {
-            main.enter();
+            main.logUser(0);
         }
         else
         {
@@ -32,16 +31,36 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
     {
         QStringList listID;
         QStringList listName;
-        for(auto& json : receivedJSON["list"]["user"].items())
+
+        if (!receivedJSON["list"]["userOUT"].is_null())
         {
-            JSON key = json.value();
+            for(auto& json : receivedJSON["list"]["userOUT"].items())
+            {
+                JSON key = json.value();
 
-            listID << QString::number(key["userID"].get<int>());
-            listName << QString::fromStdString(key["name"]);
-            std::cout << " ID: "<< key["userID"] << " , name: " << key["name"] << std::endl;
+                listID << QString::number(key["userID"].get<int>());
+                listName << QString::fromStdString(key["name"]);
+                std::cout << " ID: "<< key["userID"] << " , name: " << key["name"] << std::endl;
+            }
+        }//end if
 
-        }
-        main.fillTable(listID, listName);
+        main.fillTable(listID, listName, 0);
+        listID.clear();
+        listName.clear();
+
+        if (!receivedJSON["list"]["userIN"].is_null())
+        {
+            for(auto& json : receivedJSON["list"]["userIN"].items())
+            {
+                JSON key = json.value();
+
+                listID << QString::number(key["userID"].get<int>());
+                listName << QString::fromStdString(key["name"]);
+                std::cout << " ID: "<< key["userID"] << " , name: " << key["name"] << std::endl;
+            }
+        }//end if
+
+        main.fillTable(listID, listName, 1);
 
     }
     else if (action == "admin")
@@ -59,7 +78,7 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
     {
         if(receivedJSON["error"] == 0)
         {
-            main.exit();
+            main.logUser(1);
         }
         else
         {
@@ -71,50 +90,4 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
 
     }
 
-}
-
-
-JSON Handler::admin(JSON responseJSON, std::string user, std::string password)
-{
-    JSON dbJSON = responseJSON;
-    dbJSON["action"] = "admin";
-
-    ///No valid login, error = 1
-    if(true)
-    {
-        dbJSON["error"] = 0;
-    }
-    else
-    {
-        dbJSON["error"] = 1;
-    }
-
-    return dbJSON;
-}
-
-JSON Handler::load(const JSON& responseJSON)
-{
-
-    return responseJSON;
-}
-
-JSON Handler::regist(const JSON& responseJSON)
-{
-    //Database db;
-    JSON registJSON = responseJSON;
-    ///Check database
-    /*if(db.load(responseJSON["passID"]))
-    {
-        registJSON["response"] = "enter";
-        registJSON["error"] = 0;
-    }
-    else
-    {
-        registJSON["response"] = "invalid pass";
-        registJSON["error"] = 1;
-    }//end if*/
-
-    registJSON["response"] = "enter";
-    registJSON["error"] = 0;
-    return registJSON;
 }

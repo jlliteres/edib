@@ -13,9 +13,7 @@ public:
     void responseHandler(const JSON&, MainWindow&);
 
 private:
-    JSON regist(const JSON&);
-    JSON load(const JSON&);
-    JSON admin(JSON, std::string user, std::string password);
+
 
 };
 

@@ -105,13 +105,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btnSend">
-        <property name="text">
-         <string>Load</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="btnClose">
         <property name="text">
          <string>Close</string>

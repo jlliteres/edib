@@ -130,8 +130,22 @@ JSON Database::load()
             queryJSON["userID"] = id;
             queryJSON["name"] = name.toStdString();
 
-            dbJSON["user"] += queryJSON;
+            dbJSON["userOUT"] += queryJSON;
+        }
 
+        query.prepare("SELECT DISTINCT user_id, name FROM log JOIN users USING (user_id) WHERE exit_time IS NULL;");
+        //query.addBindValue(QString::fromStdString(key));
+
+        query.exec();
+        while(query.next())
+        {
+            JSON queryJSON;
+            int id = query.value(0).toInt();
+            QString name = query.value(1).toString().simplified();
+            queryJSON["userID"] = id;
+            queryJSON["name"] = name.toStdString();
+
+            dbJSON["userIN"] += queryJSON;
         }
     }//end if
     m_database.close();

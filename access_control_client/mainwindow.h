@@ -20,32 +20,28 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
     void lock();
     void unlock();
+    void load();
 
-    void enter();
-    void exit();
-
-    ~MainWindow();
-    void fillTable(QStringList, QStringList);
+    void logUser(int);
+    void fillTable(QStringList, QStringList, int);
     void warningMsg(QString);
+
+public slots:
+    void loginUser(const QString&, int);
+    void filter(const QString&, int);
 
 private slots:
     void on_btnClose_clicked();
-    void on_btnSend_clicked();
-    bool exists(const JSON&, const std::string&);
+
     void on_btnOpen_clicked();
 
     void on_btnLock_clicked();
 
     void on_action_Exit_triggered();
-
-    void on_filterOut_textChanged(const QString &arg1);
-    void on_filterIn_textChanged(const QString &arg1);
-
-    void on_btnEnter_clicked();
-
-    void on_btnExit_clicked();
 
 private:
     Ui::MainWindow *m_ui;
@@ -54,6 +50,8 @@ private:
     int m_clientID{1};
     bool m_isLocked{true};
     void init_server(QString url);
+
+    bool exists(const JSON&, const std::string&);
 
 };
 
