@@ -3,6 +3,7 @@
 #include "login.h"
 #include "handler.h"
 #include <QDebug>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,8 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ui->actionS_tatus->setEnabled(false);
 
     ///Table
-    //m_ui->tblIN->setColumnHidden(0, true);
-    m_ui->tblIN->setColumnWidth(1, 200);
+    m_ui->tblOUT->setColumnHidden(0, true);
+    m_ui->tblOUT->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    m_ui->tblIN->setColumnHidden(0, true);
+    m_ui->tblIN->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     m_serverUrl = "ws://localhost:9900/";
 }
@@ -46,7 +49,6 @@ void MainWindow::on_btnClose_clicked()
     lock();
     m_webSocket.stop();
     m_clientID = 1;
-    add_log("Connection closed");
     m_ui->btnClose->setEnabled(false);
     m_ui->btnSend->setEnabled(false);
     m_ui->btnOpen->setEnabled(true);
@@ -57,10 +59,8 @@ void MainWindow::on_btnSend_clicked()
 {
     JSON message;
     message["action"] = "load";
-    //message["action"] = "register";
     message["clientID"] = m_clientID++;
-    message["passID"] = "1234";
-    std::cout << message.dump() << std::endl;
+
     m_webSocket.send(message.dump());
 }
 
@@ -146,7 +146,6 @@ void MainWindow::init_server(QString url)
                     }//end if
                 }//end if
 
-                add_log(QString::fromStdString(msg->str));
             }
         }
     );
@@ -162,19 +161,60 @@ void MainWindow::fillTable(QStringList listID, QStringList listName)
     int column{0};
     qDebug() << "Fill table";
 
+    m_ui->tblOUT->setRowCount(0);
+
+    m_ui->tblOUT->setHorizontalHeaderLabels(QStringList() << "ID" << "Name");
+
     for(QString id : listID)
     {
         QTableWidgetItem *itemID = new QTableWidgetItem(id);
         QTableWidgetItem *name = new QTableWidgetItem(listName.value(listID.indexOf(id)));
+        itemID->setTextAlignment(Qt::AlignCenter);
+        name->setTextAlignment(Qt::AlignCenter);
 
-        m_ui->tblIN->insertRow(row);
-        m_ui->tblIN->setItem(row, column, itemID);
+        m_ui->tblOUT->insertRow(row);
+        m_ui->tblOUT->setItem(row, column, itemID);
         column++;
-        m_ui->tblIN->setItem(row, column, name);
+        m_ui->tblOUT->setItem(row, column, name);
         row++;
         column = 0;
     }
+    m_ui->tblOUT->sortByColumn(1, Qt::AscendingOrder);
+    m_ui->tblOUT->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+}
+
+void MainWindow::enter()
+{
+    m_ui->tblIN->insertRow(m_ui->tblIN->rowCount());
+    m_ui->tblIN->setItem(m_ui->tblIN->rowCount() - 1 , 0, m_ui->tblOUT->item(m_ui->tblOUT->currentRow(), 0)->clone());
+    m_ui->tblIN->setItem(m_ui->tblIN->rowCount() - 1, 1, m_ui->tblOUT->currentItem()->clone());
+
+    m_ui->tblOUT->removeRow(m_ui->tblOUT->currentRow());
+
+    m_ui->tblOUT->sortByColumn(1, Qt::AscendingOrder);
+    m_ui->tblIN->sortByColumn(1, Qt::AscendingOrder);
+}
+
+void MainWindow::exit()
+{
+    m_ui->tblOUT->insertRow(m_ui->tblOUT->rowCount());
+    m_ui->tblOUT->setItem(m_ui->tblOUT->rowCount() - 1 , 0, m_ui->tblIN->item(m_ui->tblIN->currentRow(), 0)->clone());
+    m_ui->tblOUT->setItem(m_ui->tblOUT->rowCount() - 1, 1, m_ui->tblIN->currentItem()->clone());
+
+    m_ui->tblIN->removeRow(m_ui->tblIN->currentRow());
+
+    m_ui->tblOUT->sortByColumn(1, Qt::AscendingOrder);
+    m_ui->tblIN->sortByColumn(1, Qt::AscendingOrder);
+}
+
+void MainWindow::warningMsg(QString msg)
+{
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle("Error");
+    msgBox.setText(msg);
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.exec();
 }
 
 bool MainWindow::exists(const JSON& json, const std::string& key)
@@ -182,13 +222,94 @@ bool MainWindow::exists(const JSON& json, const std::string& key)
     return json.find(key) != json.end();
 }
 
-void MainWindow::add_log(QString item)
-{
-    m_ui->log->addItem(item);
-}
-
-
 void MainWindow::on_action_Exit_triggered()
 {
     QCoreApplication::quit();
+}
+
+void MainWindow::on_filterOut_textChanged(const QString &filter)
+{
+    ///Filter table results
+    for( int i = 0; i < m_ui->tblOUT->rowCount(); ++i )
+    {
+        bool match = false;
+        for( int j = 0; j < m_ui->tblOUT->columnCount(); ++j )
+        {
+            QTableWidgetItem *item = m_ui->tblOUT->item( i, j );
+            if( item->text().contains(filter) )
+            {
+                match = true;
+            }
+        }
+        m_ui->tblOUT->setRowHidden( i, !match );
+    }
+}
+
+void MainWindow::on_filterIn_textChanged(const QString &filter)
+{
+    ///Filter table results
+    for( int i = 0; i < m_ui->tblIN->rowCount(); ++i )
+    {
+        bool match = false;
+
+        QTableWidgetItem *item = m_ui->tblIN->item( i, 1 );
+        if( item->text().contains(filter) )
+        {
+            match = true;
+        }
+
+        m_ui->tblIN->setRowHidden( i, !match );
+    }
+}
+
+void MainWindow::on_btnEnter_clicked()
+{
+    if(m_ui->tblOUT->currentItem() != nullptr)
+    {
+        qDebug() << "item selected";
+
+        Login *login{new Login()};
+        login->show();
+        login->setModal(true);
+        login->setUser(m_ui->tblOUT->currentItem()->text());
+
+        connect(login, &Login::accepted, [this, login](){
+            JSON loginJSON;
+            loginJSON["clientID"] = m_clientID++;
+            loginJSON["action"] = "enter";
+            loginJSON["user"] = m_ui->tblOUT->item(m_ui->tblOUT->currentRow(), 0)->text().toInt();
+            loginJSON["password"] = login->password();
+            qDebug() << QString::fromStdString(loginJSON.dump());
+
+            m_webSocket.send(loginJSON.dump());
+        });
+
+
+    }
+}
+
+void MainWindow::on_btnExit_clicked()
+{
+    if(m_ui->tblIN->currentItem() != nullptr)
+    {
+        qDebug() << "item selected";
+
+        Login *login{new Login()};
+        login->show();
+        login->setModal(true);
+        login->setUser(m_ui->tblIN->currentItem()->text());
+
+        connect(login, &Login::accepted, [this, login](){
+            JSON loginJSON;
+            loginJSON["clientID"] = m_clientID++;
+            loginJSON["action"] = "exit";
+            loginJSON["user"] = m_ui->tblIN->item(m_ui->tblIN->currentRow(), 0)->text().toInt();
+            loginJSON["password"] = login->password();
+            qDebug() << QString::fromStdString(loginJSON.dump());
+
+            m_webSocket.send(loginJSON.dump());
+        });
+
+
+    }
 }

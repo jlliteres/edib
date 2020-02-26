@@ -20,7 +20,10 @@ void Server::init_server()
                 {
                     if (msg->type == ix::WebSocketMessageType::Open)
                     {
-                        webSocket->send("Connection open");
+                        JSON json;
+                        json["action"] = "connection";
+                        json["error"] = 0;
+                        webSocket->send(json.dump());
                         std::cout << "New connection" << std::endl;
 
                     }

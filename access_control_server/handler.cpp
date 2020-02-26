@@ -16,9 +16,13 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
 
     std::string action = receivedJSON["action"];
     ///2) Data treatment
-    if( action == "register")
+    if (action == "enter")
     {
-        responseJSON = regist(responseJSON);
+        responseJSON = enter(responseJSON, receivedJSON["user"].get<int>(), receivedJSON["password"]);
+    }
+    else if (action == "exit")
+    {
+        responseJSON = exit(responseJSON, receivedJSON["user"].get<int>(), receivedJSON["password"]);
     }
     else if (action == "load")
     {
@@ -27,11 +31,7 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
     else if (action == "admin")
     {
         responseJSON = admin(responseJSON, receivedJSON["user"], receivedJSON["password"]);
-    }
-    else if (action == "")
-    {
-
-    }
+    }    
     else if (action == "")
     {
 
@@ -71,23 +71,40 @@ JSON Handler::load(const JSON& responseJSON)
     return dbJSON;
 }
 
-JSON Handler::regist(const JSON& responseJSON)
+JSON Handler::enter(const JSON& responseJSON, int user, std::string password)
 {
-    //Database db;
-    JSON registJSON = responseJSON;
-    ///Check database
-    /*if(db.load(responseJSON["passID"]))
+    Database db;
+    JSON dbJSON = responseJSON;
+    dbJSON["action"] = "enter";
+
+    ///No valid login, error = 1
+    if(db.enter(user, password))
     {
-        registJSON["response"] = "enter";
-        registJSON["error"] = 0;
+        dbJSON["error"] = 0;
     }
     else
     {
-        registJSON["response"] = "invalid pass";
-        registJSON["error"] = 1;
-    }//end if*/
+        dbJSON["error"] = 1;
+    }
 
-    registJSON["response"] = "enter";
-    registJSON["error"] = 0;
-    return registJSON;
+    return dbJSON;
+}
+
+JSON Handler::exit(const JSON& responseJSON, int user, std::string password)
+{
+    Database db;
+    JSON dbJSON = responseJSON;
+    dbJSON["action"] = "exit";
+
+    ///No valid login, error = 1
+    if(db.exit(user, password))
+    {
+        dbJSON["error"] = 0;
+    }
+    else
+    {
+        dbJSON["error"] = 1;
+    }
+
+    return dbJSON;
 }

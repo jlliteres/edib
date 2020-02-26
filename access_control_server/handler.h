@@ -11,7 +11,8 @@ public:
     JSON responseHandler(const JSON&, const int);
 
 private:
-    JSON regist(const JSON&);
+    JSON enter(const JSON&, int user, std::string password);
+    JSON exit(const JSON&, int user, std::string password);
     JSON load(const JSON&);
     JSON admin(JSON, std::string user, std::string password);
 

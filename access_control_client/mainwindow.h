@@ -22,8 +22,13 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     void lock();
     void unlock();
+
+    void enter();
+    void exit();
+
     ~MainWindow();
     void fillTable(QStringList, QStringList);
+    void warningMsg(QString);
 
 private slots:
     void on_btnClose_clicked();
@@ -35,13 +40,19 @@ private slots:
 
     void on_action_Exit_triggered();
 
+    void on_filterOut_textChanged(const QString &arg1);
+    void on_filterIn_textChanged(const QString &arg1);
+
+    void on_btnEnter_clicked();
+
+    void on_btnExit_clicked();
+
 private:
     Ui::MainWindow *m_ui;
     ix::WebSocket m_webSocket;
     QString m_serverUrl{""};
     int m_clientID{1};
     bool m_isLocked{true};
-    void add_log(QString item);
     void init_server(QString url);
 
 };

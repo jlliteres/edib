@@ -15,6 +15,7 @@ class Login : public QDialog
 public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
+    void setUser(QString);
     std::string user();
     std::string password();
 

@@ -6,13 +6,19 @@ Login::Login(QWidget *parent) :
     m_ui(new Ui::Login)
 {
     m_ui->setupUi(this);
-    this->setWindowTitle("Admin Login");
+    this->setWindowTitle("Login");
 
 }
 
 Login::~Login()
 {
     delete m_ui;
+}
+
+void Login::setUser(QString user)
+{
+    m_ui->user->setText(user);
+    m_ui->user->setReadOnly(true);
 }
 
 std::string Login::user()

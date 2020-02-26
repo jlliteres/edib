@@ -17,8 +17,16 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
 
     std::string action = receivedJSON["action"];
     ///2) Data treatment
-    if(action == "register")
+    if(action == "enter")
     {
+        if(receivedJSON["error"] == 0)
+        {
+            main.enter();
+        }
+        else
+        {
+            main.warningMsg("Invalid login credentials!");
+        }//end if
     }
     else if (action == "load")
     {
@@ -44,15 +52,19 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
         }
         else
         {
-            QMessageBox msgBox;
-            msgBox.setText("Invalid admin credentials");
-            msgBox.setIcon(QMessageBox::Warning);
-            msgBox.exec();
+            main.warningMsg("Invalid admin credentials!");
         }//end if
     }
-    else if (action == "")
+    else if (action == "exit")
     {
-
+        if(receivedJSON["error"] == 0)
+        {
+            main.exit();
+        }
+        else
+        {
+            main.warningMsg("Invalid login credentials!");
+        }//end if
     }
     else if (action == "")
     {

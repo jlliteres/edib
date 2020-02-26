@@ -14,6 +14,8 @@ public:
     Database();
     JSON load();
     bool admin(const std::string, const std::string);
+    bool enter(const int, const std::string);
+    bool exit(const int, const std::string);
     QSqlDatabase m_database;
 };
 
