@@ -23,6 +23,7 @@ public:
     void lock();
     void unlock();
     ~MainWindow();
+    void fillTable(QStringList, QStringList);
 
 private slots:
     void on_btnClose_clicked();
@@ -40,7 +41,6 @@ private:
     QString m_serverUrl{""};
     int m_clientID{1};
     bool m_isLocked{true};
-
     void add_log(QString item);
     void init_server(QString url);
 

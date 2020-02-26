@@ -11,13 +11,22 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ui->setupUi(this);
 
     this->setWindowTitle("Access Control");
+
+    ///Buttons
     m_ui->btnClose->setEnabled(false);
     m_ui->btnSend->setEnabled(false);
     m_ui->btnOpen->setEnabled(true);
     m_ui->btnAdd->setEnabled(false);
     m_ui->btnLock->setEnabled(false);
     m_ui->btnDelete->setEnabled(false);
+
+    ///Menu buttons
     m_ui->actionS_tatus->setEnabled(false);
+
+    ///Table
+    //m_ui->tblIN->setColumnHidden(0, true);
+    m_ui->tblIN->setColumnWidth(1, 200);
+
     m_serverUrl = "ws://localhost:9900/";
 }
 
@@ -65,6 +74,7 @@ void MainWindow::on_btnLock_clicked()
        Login *login{new Login()};
        login->show();
        login->setModal(true);
+
 ///Send admin login to server
        connect(login, &Login::accepted, [this, login](){
            JSON loginJSON;
@@ -144,6 +154,27 @@ void MainWindow::init_server(QString url)
     m_webSocket.start();
 
     //add_log("Connection open: " + url);
+}
+
+void MainWindow::fillTable(QStringList listID, QStringList listName)
+{
+    int row{0};
+    int column{0};
+    qDebug() << "Fill table";
+
+    for(QString id : listID)
+    {
+        QTableWidgetItem *itemID = new QTableWidgetItem(id);
+        QTableWidgetItem *name = new QTableWidgetItem(listName.value(listID.indexOf(id)));
+
+        m_ui->tblIN->insertRow(row);
+        m_ui->tblIN->setItem(row, column, itemID);
+        column++;
+        m_ui->tblIN->setItem(row, column, name);
+        row++;
+        column = 0;
+    }
+
 }
 
 bool MainWindow::exists(const JSON& json, const std::string& key)

@@ -50,7 +50,7 @@ JSON Database::load()
 
     if(isOK)
     {
-        dbJSON["user"] = JSON::array();
+        //dbJSON["user"] = JSON::object({});
         QSqlQuery query;
         query.prepare("SELECT * from matricula;");
         //query.addBindValue(QString::fromStdString(key));
@@ -64,9 +64,8 @@ JSON Database::load()
             queryJSON["userID"] = id;
             queryJSON["name"] = name.toStdString();
 
-            dbJSON["user"].insert(dbJSON["user"].end(), queryJSON);
+            dbJSON["user"] += queryJSON;
 
-            //dbJSON["user"] += value.toStdString();
         }
     }//end if
     m_database.close();

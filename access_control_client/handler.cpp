@@ -1,6 +1,9 @@
 #include "handler.h"
 #include <QString>
+#include <QStringList>
+#include <QDebug>
 #include <QMessageBox>
+#include <QTableWidgetItem>
 
 Handler::Handler()
 {
@@ -19,6 +22,19 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
     }
     else if (action == "load")
     {
+        QStringList listID;
+        QStringList listName;
+        for(auto& json : receivedJSON["list"]["user"].items())
+        {
+            JSON key = json.value();
+
+            listID << QString::number(key["userID"].get<int>());
+            listName << QString::fromStdString(key["name"]);
+            std::cout << " ID: "<< key["userID"] << " , name: " << key["name"] << std::endl;
+
+        }
+        main.fillTable(listID, listName);
+
     }
     else if (action == "admin")
     {

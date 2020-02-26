@@ -16,6 +16,9 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -32,6 +35,12 @@
    </item>
    <item row="1" column="3">
     <widget class="QLineEdit" name="password">
+     <property name="minimumSize">
+      <size>
+       <width>313</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="echoMode">
       <enum>QLineEdit::Password</enum>
      </property>
@@ -44,15 +53,15 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2" colspan="2">
-    <widget class="QLineEdit" name="user"/>
-   </item>
    <item row="1" column="0" colspan="3">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>Password:</string>
      </property>
     </widget>
+   </item>
+   <item row="0" column="2" colspan="2">
+    <widget class="QLineEdit" name="user"/>
    </item>
   </layout>
  </widget>
