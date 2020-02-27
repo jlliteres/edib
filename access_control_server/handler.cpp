@@ -32,79 +32,92 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
     {
         responseJSON = admin(responseJSON, receivedJSON["user"], receivedJSON["password"]);
     }    
-    else if (action == "")
+    else if (action == "add")
     {
 
-    }
+    }//end if
 
     return responseJSON;
 }
 
-
-JSON Handler::admin(JSON responseJSON, std::string user, std::string password)
+JSON Handler::add(JSON responseJSON, std::string user, std::string password)
 {
-    Database db;
     JSON dbJSON = responseJSON;
-    dbJSON["action"] = "admin";
+    dbJSON["action"] = "add";
 
-    ///No valid login, error = 1
-    if(db.admin(user, password))
+    ///No valid addUser, error = 1
+    if(m_database.addUser(user, password))
     {
         dbJSON["error"] = 0;
     }
     else
     {
         dbJSON["error"] = 1;
+    }//end if
+
+    return dbJSON;
+}
+
+JSON Handler::admin(JSON responseJSON, std::string user, std::string password)
+{
+    JSON dbJSON = responseJSON;
+    dbJSON["action"] = "admin";
+
+    ///No valid login, error = 1
+    if(m_database.admin(user, password))
+    {
+        dbJSON["error"] = 0;
     }
+    else
+    {
+        dbJSON["error"] = 1;
+    }//end if
 
     return dbJSON;
 }
 
 JSON Handler::load(const JSON& responseJSON)
 {
-    Database db;
     JSON dbJSON = responseJSON;
     dbJSON["action"] = "load";
 
-    dbJSON["list"] = db.load();
+    dbJSON["list"] = m_database.load();
 
     return dbJSON;
 }
 
 JSON Handler::enter(const JSON& responseJSON, int user, std::string password)
 {
-    Database db;
     JSON dbJSON = responseJSON;
     dbJSON["action"] = "enter";
 
     ///No valid login, error = 1
-    if(db.enter(user, password))
+    if(m_database.enter(user, password))
     {
         dbJSON["error"] = 0;
     }
     else
     {
         dbJSON["error"] = 1;
-    }
+    }//end if
 
     return dbJSON;
 }
 
 JSON Handler::exit(const JSON& responseJSON, int user, std::string password)
 {
-    Database db;
     JSON dbJSON = responseJSON;
     dbJSON["action"] = "exit";
 
     ///No valid login, error = 1
-    if(db.exit(user, password))
+    if(m_database.exit(user, password))
     {
         dbJSON["error"] = 0;
     }
     else
     {
         dbJSON["error"] = 1;
-    }
+    }//end if
 
     return dbJSON;
 }

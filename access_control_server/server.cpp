@@ -53,9 +53,8 @@ void Server::init_server()
                             ///2) Data treatment
                                 if(exists(receivedObject, "action"))
                                 {
-                                    Handler handler;
 
-                                    JSON response = handler.responseHandler(receivedObject, serverID++);
+                                    JSON response = m_handler.responseHandler(receivedObject, serverID++);
 
                                     webSocket->send(response.dump());
 

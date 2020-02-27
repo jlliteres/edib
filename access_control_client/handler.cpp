@@ -32,7 +32,7 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
         QStringList listID;
         QStringList listName;
 
-        if (!receivedJSON["list"]["userOUT"].is_null())
+        if (main.exists(receivedJSON["list"], "userOUT"))
         {
             for(auto& json : receivedJSON["list"]["userOUT"].items())
             {
@@ -44,11 +44,14 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
             }
         }//end if
 
-        main.fillTable(listID, listName, 0);
-        listID.clear();
-        listName.clear();
+        if(!listID.isEmpty())
+        {
+            main.fillTable(listID, listName, 0);
+            listID.clear();
+            listName.clear();
+        }//end if
 
-        if (!receivedJSON["list"]["userIN"].is_null())
+        if (main.exists(receivedJSON["list"], "userIN"))
         {
             for(auto& json : receivedJSON["list"]["userIN"].items())
             {
@@ -60,8 +63,10 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
             }
         }//end if
 
-        main.fillTable(listID, listName, 1);
-
+        if(!listID.isEmpty())
+        {
+            main.fillTable(listID, listName, 1);
+        }//end if
     }
     else if (action == "admin")
     {
@@ -85,9 +90,10 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
             main.warningMsg("Invalid login credentials!");
         }//end if
     }
-    else if (action == "")
+    else if (action == "add")
     {
 
-    }
+    }//end if
 
 }
+

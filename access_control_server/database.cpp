@@ -41,6 +41,41 @@ bool Database::admin(const std::string logUser, const std::string logPassword)
     m_database.close();
     return result;
 }
+bool Database::addUser(const std::string logName, const std::string logPassword)
+{
+    QString password = QString::fromStdString(logPassword);
+    QString name = QString::fromStdString(logName);
+    bool result{false};
+    bool isOK = m_database.open();
+    JSON dbJSON;
+    qDebug() << m_database.lastError().text();
+
+    qDebug() << isOK;
+
+    if(isOK)
+    {
+        QSqlQuery query;
+        query.prepare("SELECT * FROM users WHERE name = ?");
+        query.addBindValue(name);
+
+        if(query.size() == 0)
+        {
+            query.prepare("INSERT INTO users (name) VALUES (?)");
+            query.addBindValue(name);
+            bool queryOk = query.exec();
+            if(queryOk)
+            {
+                query.prepare("INSERT INTO login (user_id, password) VALUES ((SELECT user_id FROM users WHERE name = ?), crypt(?, gen_salt('bf')));");
+                query.addBindValue(name);
+                query.addBindValue(password);
+                result = query.exec();
+            }//end if
+        }//end if
+    }//end if
+
+    m_database.close();
+    return result;
+}
 
 bool Database::enter(const int logUser, const std::string logPassword)
 {
@@ -63,11 +98,9 @@ bool Database::enter(const int logUser, const std::string logPassword)
 
         if(query.size() == 1)
         {
-           QSqlQuery query2;
-           query2.prepare("INSERT INTO log (user_id) VALUES (?);");
-           query2.addBindValue(logUser);
-           query2.exec();
-           result = true;
+           query.prepare("INSERT INTO log (user_id) VALUES (?);");
+           query.addBindValue(logUser);
+           result = query.exec();
         }//end if
     }//end if
 
@@ -96,11 +129,9 @@ bool Database::exit(const int logUser, const std::string logPassword)
 
         if(query.size() == 1)
         {
-           QSqlQuery query2;
-           query2.prepare("UPDATE log SET exit_time = now()::timestamp WHERE user_id = ? AND exit_time IS NULL;");
-           query2.addBindValue(logUser);
-           query2.exec();
-           result = true;
+           query.prepare("UPDATE log SET exit_time = now()::timestamp WHERE user_id = ? AND exit_time IS NULL;");
+           query.addBindValue(logUser);
+           result = query.exec();
         }//end if
     }//end if
 

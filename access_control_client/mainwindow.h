@@ -30,6 +30,8 @@ public:
     void fillTable(QStringList, QStringList, int);
     void warningMsg(QString);
 
+    bool exists(const JSON&, const std::string&);
+
 public slots:
     void loginUser(const QString&, int);
     void filter(const QString&, int);
@@ -43,6 +45,15 @@ private slots:
 
     void on_action_Exit_triggered();
 
+    void on_filterOut_textChanged(const QString &arg1);
+    void on_filterIn_textChanged(const QString &arg1);
+
+    void on_btnEnter_clicked();
+
+    void on_btnExit_clicked();
+
+    void on_btnAdd_clicked();
+
 private:
     Ui::MainWindow *m_ui;
     ix::WebSocket m_webSocket;
@@ -51,7 +62,7 @@ private:
     bool m_isLocked{true};
     void init_server(QString url);
 
-    bool exists(const JSON&, const std::string&);
+
 
 };
 

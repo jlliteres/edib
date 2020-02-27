@@ -7,7 +7,7 @@ Login::Login(QWidget *parent) :
 {
     m_ui->setupUi(this);
     this->setWindowTitle("Login");
-
+    setFixedSize(size());
 }
 
 Login::~Login()
