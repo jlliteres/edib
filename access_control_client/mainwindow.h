@@ -57,10 +57,9 @@ private:
     ix::WebSocket m_webSocket;
     QString m_serverUrl{""};
     int m_clientID{1};
+
     bool m_isLocked{true};
     void init_server(QString url);
-
-
 
 };
 

@@ -1,8 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "login.h"
-#include "handler.h"
 #include "adduser.h"
+#include "handler.h"
+
 #include <QDebug>
 #include <QMessageBox>
 #include <QStringList>
@@ -79,9 +80,7 @@ void MainWindow::init_server(QString url)
                     if(exists(receivedObject, "action"))
                     {
                         Handler handler;
-
                         handler.responseHandler(receivedObject, *this);
-
                     }//end if
                 }//end if
 
@@ -96,7 +95,7 @@ void MainWindow::init_server(QString url)
 
 void MainWindow::load()
 {
-    ///Send JSON to server to load info from database
+    ///Send JSON to server to LOAD info from database
     JSON message;
     message["action"] = "load";
     message["clientID"] = m_clientID++;
@@ -134,6 +133,7 @@ void MainWindow::fillTable(QStringList listID, QStringList listName, int switche
     int row{0};
     int column{0};
 
+    /// 'swicther' sets the active table
     if (switcher == 0)
     {
         table = m_ui->tblOUT;

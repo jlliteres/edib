@@ -1,4 +1,5 @@
 #include "handler.h"
+
 #include <QString>
 #include <QStringList>
 #include <QDebug>
@@ -15,7 +16,9 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
     ///1) Get data
 
     std::string action = receivedJSON["action"];
+
     ///2) Data treatment
+
     if(action == "enter")
     {
         if(receivedJSON["error"] == 0)
