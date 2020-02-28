@@ -55,15 +55,15 @@ bool Database::addUser(const std::string logName, const std::string logPassword)
     if(isOK)
     {
         QSqlQuery query;
-        query.prepare("SELECT * FROM users WHERE name = ?");
+        query.prepare("SELECT user_id FROM users WHERE name = ?;");
         query.addBindValue(name);
-
-        if(query.size() == 0)
+        qDebug() << query.size();
+        if(query.size() == -1)
         {
-            query.prepare("INSERT INTO users (name) VALUES (?)");
+            query.prepare("INSERT INTO users (name) VALUES (?);");
             query.addBindValue(name);
-            bool queryOk = query.exec();
-            if(queryOk)
+
+            if(query.exec())
             {
                 query.prepare("INSERT INTO login (user_id, password) VALUES ((SELECT user_id FROM users WHERE name = ?), crypt(?, gen_salt('bf')));");
                 query.addBindValue(name);

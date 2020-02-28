@@ -34,7 +34,7 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
     }    
     else if (action == "add")
     {
-
+        responseJSON = add(responseJSON, receivedJSON["user"], receivedJSON["password"]);
     }//end if
 
     return responseJSON;

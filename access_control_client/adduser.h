@@ -17,6 +17,9 @@ public:
     std::string user();
     std::string password();
 
+public slots:
+    void checkPassword(const QString&);
+
 private:
     Ui::AddUser *m_ui;
 };

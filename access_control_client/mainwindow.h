@@ -38,7 +38,6 @@ public slots:
 
 private slots:
     void on_btnClose_clicked();
-
     void on_btnOpen_clicked();
 
     void on_btnLock_clicked();
@@ -49,7 +48,6 @@ private slots:
     void on_filterIn_textChanged(const QString &arg1);
 
     void on_btnEnter_clicked();
-
     void on_btnExit_clicked();
 
     void on_btnAdd_clicked();
