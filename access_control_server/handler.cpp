@@ -45,7 +45,7 @@ JSON Handler::add(JSON responseJSON, std::string user, std::string password)
     JSON dbJSON = responseJSON;
     dbJSON["action"] = "add";
 
-    ///No valid addUser, error = 1
+    ///Problem inserting user, error = 1
     if(m_database.addUser(user, password))
     {
         dbJSON["error"] = 0;
