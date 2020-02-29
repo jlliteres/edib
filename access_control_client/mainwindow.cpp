@@ -44,9 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_serverUrl = "ws://localhost:9900/";
 
-    connect(m_ui->tblIN,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this, SLOT(on_btnExit_clicked()));
-    connect(m_ui->tblOUT,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this, SLOT(on_btnEnter_clicked()));
-
+    ///Clock timer
     QTimer *timer = new QTimer(this);
     timer->setInterval(1000);
     connect(timer, &QTimer::timeout, [&]() {
@@ -54,6 +52,9 @@ MainWindow::MainWindow(QWidget *parent) :
        m_ui->clock->setText(time1);
     } );
     timer->start();
+
+    connect(m_ui->tblIN,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this, SLOT(on_btnExit_clicked()));
+    connect(m_ui->tblOUT,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this, SLOT(on_btnEnter_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -139,25 +140,20 @@ void MainWindow::fillTable(QStringList listID, QStringList listName, int switche
     qRegisterMetaType<QVector<int>>("QVector<int>");
     qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
     qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
-    ///Fill the tables with the database data
+
     QTableWidget* table;
     int row{0};
     int column{0};
 
-    /// 'swicther' sets the active table
-    if (switcher == 0)
-    {
-        table = m_ui->tblOUT;
-    }
-    else
-    {
-        table = m_ui->tblIN;
-    }//end if
+    ///'swicther' sets the active table
+    table = (switcher == 0)? m_ui->tblOUT:m_ui->tblIN;
 
+    /// Restart table and set headers
     table->setRowCount(0);
 
     table->setHorizontalHeaderLabels(QStringList() << "ID" << "Name");
 
+    ///Fill the tables with the database data
     for(QString id : listID)
     {
         QTableWidgetItem *itemID = new QTableWidgetItem(id);
@@ -180,10 +176,11 @@ void MainWindow::fillTable(QStringList listID, QStringList listName, int switche
 
 void MainWindow::logUser(int switcher)
 {
-    ///Move user from table to table
+    ///Move user from table to table.
     QTableWidget* tableStart;
     QTableWidget* tableEnd;
-    /// 'swicther' sets the START table and the END table
+
+    /// 'swicther' sets the START table and the END table.
     if (switcher == 0)
     {
         tableStart = m_ui->tblOUT;
@@ -208,17 +205,11 @@ void MainWindow::logUser(int switcher)
 void MainWindow::loginUser(const QString& action, int switcher)
 {
     QTableWidget* table;
-    ///Show login window when ENTER or EXIT buttons are pressed and send JSON to server.
-    /// 'swicther' sets the active table
-    if (switcher == 0)
-    {
-        table = m_ui->tblOUT;
-    }
-    else
-    {
-        table = m_ui->tblIN;
-    }//end if
 
+    /// 'swicther' sets the active table.
+    table = (switcher == 0)? m_ui->tblOUT:m_ui->tblIN;
+
+    ///Show login window and send JSON to server IF there's a selected item.
     if(table->currentItem() != nullptr)
     {
         Login *login{new Login()};
@@ -236,39 +227,32 @@ void MainWindow::loginUser(const QString& action, int switcher)
             m_webSocket.send(loginJSON.dump());
         });
 
-        delete login;
     }//end if
 
 }
 
 void MainWindow::filter(const QString& filter, int switcher)
 {    
-    ///Filter table results
+    ///Filter table results.
 
     QTableWidget* table;
 
-    if (switcher == 0)
-    {
-        table = m_ui->tblOUT;
-    }
-    else
-    {
-        table = m_ui->tblIN;
-    }//end if
+    /// 'swicther' sets the active table.
+    table = (switcher == 0)? m_ui->tblOUT:m_ui->tblIN;
 
-    ///Hide rows that don't match
+    ///Hide rows that don't match with filter text.
     for( int i = 0; i < table->rowCount(); ++i )
     {
         bool match = false;
         for( int j = 0; j < table->columnCount(); ++j )
         {
             QTableWidgetItem *item = table->item( i, j );
-            if( item->text().contains(filter) )
+            if(item->text().contains(filter))
             {
                 match = true;
             }//end if
         }
-        table->setRowHidden( i, !match );
+        table->setRowHidden(i, !match);
     }
 }
 
@@ -292,7 +276,7 @@ void MainWindow::on_btnAdd_clicked()
     AddUser *add{new AddUser()};
     add->show();
 
-    ///Send new user to server
+    ///Send new user info to server
     connect(add, &Login::accepted, [this, add](){
 
             JSON loginJSON;
@@ -304,12 +288,10 @@ void MainWindow::on_btnAdd_clicked()
 
             m_webSocket.send(loginJSON.dump());
     });
-    delete add;
 }
 
 void MainWindow::on_btnLock_clicked()
 {
-
     ///Open login dialog
    if(m_isLocked)
    {
@@ -327,8 +309,6 @@ void MainWindow::on_btnLock_clicked()
 
            m_webSocket.send(loginJSON.dump());
        });
-
-       delete login;
    }
    else
    {
