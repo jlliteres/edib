@@ -17,6 +17,7 @@ public:
     bool enter(const int, const std::string);
     bool exit(const int, const std::string);
     bool addUser(const std::string, const std::string);
+
     QSqlDatabase m_database;
 };
 

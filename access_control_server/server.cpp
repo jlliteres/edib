@@ -24,7 +24,7 @@ void Server::init_server()
                         JSON json;
                         json["action"] = "connection";
                         json["error"] = 0;
-                        json["time"] = QDate::currentDate().toString().toStdString();
+
                         webSocket->send(json.dump());
                         std::cout << "New connection" << std::endl;
 
