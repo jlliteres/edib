@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QTimer *timer = new QTimer(this);
     timer->setInterval(1000);
     connect(timer, &QTimer::timeout, [&]() {
-       QString time1 = QDateTime::currentDateTime().toString("hh:mm:ss dd/MM/yy");
+       QString time1 = QDateTime::currentDateTime().toString("hh:mm:ss dd/MM/yyyy");
        m_ui->clock->setText(time1);
     } );
     timer->start();
