@@ -4,6 +4,8 @@
 #include "adduser.h"
 #include "handler.h"
 
+#include <QTimer>
+#include <QDateTime>
 #include <QDebug>
 #include <QMessageBox>
 #include <QStringList>
@@ -44,6 +46,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(m_ui->tblIN,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this, SLOT(on_btnExit_clicked()));
     connect(m_ui->tblOUT,SIGNAL(itemDoubleClicked(QTableWidgetItem*)),this, SLOT(on_btnEnter_clicked()));
+
+    QTimer *timer = new QTimer(this);
+    timer->setInterval(1000);
+    connect(timer, &QTimer::timeout, [&]() {
+       QString time1 = QDateTime::currentDateTime().toString("hh:mm:ss dd/MM/yy");
+       m_ui->clock->setText(time1);
+    } );
+    timer->start();
 }
 
 MainWindow::~MainWindow()
@@ -63,6 +73,7 @@ void MainWindow::init_server(QString url)
                 m_ui->btnOpen->setEnabled(false);
                 m_ui->btnLock->setEnabled(true);
                 load();
+
             }
 
             if (msg->type == ix::WebSocketMessageType::Message)
