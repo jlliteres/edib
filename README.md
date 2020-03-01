@@ -23,7 +23,7 @@ Se pretende crear un control de acceso instalable en cualquier dispositivo, que 
    - Eliminar un usuario.
    - Ver información de la conexión con el servidor.
    - Comprobar las entradas y salidas de los usuarios.
-4. Se bloquean las opciones pulsando _Lock..._.
+4. Se bloquean las opciones pulsando _Lock..._
 
 ### Servidor
 1. Se comprueba que el mensaje recibido sea un JSON válido.
