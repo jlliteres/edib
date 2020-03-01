@@ -11,8 +11,9 @@ Se pretende crear un control de acceso instalable en cualquier dispositivo, que 
 ### Cliente
 1. Inicia la conexión con el servidor.
 2. Envía un JSON para cargar las tablas con la información de la base de datos.
-3. Cuando un usuario pretende entrar o salir, se comunica al servidor con un JSON.
-4. Si el servidor responde correctamente, _error 0_, se actualiza la información de las tablas.
+3. Cuando un usuario pretende entrar o salir aparece una ventana para introducir sus credenciales. 
+4. Se comunica al servidor con un JSON.
+5. Si el servidor responde correctamente, _error 0_, se actualiza la información de las tablas.
 
 ### Cliente (admin)
 1. Pulsando el botón _Unlock..._ se muestra una ventana para introducir los datos de _administrador_.
