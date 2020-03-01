@@ -6,6 +6,7 @@ Control de acceso de trabajadores para una empresa.
 Se pretende crear un control de acceso instalable en cualquier dispositivo, que permita a los trabajadores registrar su entrada y salida de la empresa de una manera sencilla y visual. Se desarrolla también un servidor que gestiona las peticiones y se comunica con la base de datos, haciendo uso de JSON y WebSocket.
 
 ## Cómo funciona
+#### **Todos los mensajes de respuesta del servidor son _parseados_ para comprobar que son JSON válidos. Se usa un [handler](access_control_client/handler.cpp) para determinar el _action_ de la respuesta y realizar la función correspondiente** 
 
 ### Cliente
 1. Inicia la conexión con el servidor.
@@ -26,7 +27,7 @@ Se pretende crear un control de acceso instalable en cualquier dispositivo, que 
 ### Servidor
 1. Se comprueba que el mensaje recibido sea un JSON válido.
 2. Se envía el JSON a un objeto, un [handler](access_control_server/handler.cpp), que determinará el _action_ o petición que hace este mensaje.
-3. Según el _action_ se realiza la función correspondiente, haciendo uso de otro [objeto](access_control_server/database.cpp) que se comunica con la base de datos.
+3. Según el _action_ se realiza la función correspondiente, haciendo uso de los métodos de otro [objeto](access_control_server/database.cpp) que se comunica con la base de datos.
 4. Si la respuesta de la base de datos es correcta, se devuelve un JSON al cliente con _error 0_.
 5. Si no es correcta, se comunica al cliente con _error 1_.
 
