@@ -26,7 +26,7 @@ Se pretende crear un control de acceso instalable en cualquier dispositivo, que 
 ### Servidor
 1. Se comprueba que el mensaje recibido sea un JSON válido.
 2. Se envía el JSON a un objeto, un [handler](access_control_server/handler.cpp), que determinará el _action_ o petición que hace este mensaje.
-3. Según el _action_ se realiza la función correspondiente, haciendo uso de otro [objeto](edib/access_control_server/database.cpp) que se comunica con la base de datos.
+3. Según el _action_ se realiza la función correspondiente, haciendo uso de otro [objeto](access_control_server/database.cpp) que se comunica con la base de datos.
 4. Si la respuesta de la base de datos es correcta, se devuelve un JSON al cliente con _error 0_.
 5. Si no es correcta, se comunica al cliente con _error 1_.
 
