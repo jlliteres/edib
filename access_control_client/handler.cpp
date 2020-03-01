@@ -32,44 +32,7 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
     }
     else if (action == "load")
     {
-        QStringList listID;
-        QStringList listName;
-
-        if (main.exists(receivedJSON["list"], "userOUT"))
-        {
-            for(auto& json : receivedJSON["list"]["userOUT"].items())
-            {
-                JSON key = json.value();
-
-                listID << QString::number(key["userID"].get<int>());
-                listName << QString::fromStdString(key["name"]);
-                std::cout << " ID: "<< key["userID"] << " , name: " << key["name"] << std::endl;
-            }
-        }//end if
-
-        if(!listID.isEmpty())
-        {
-            main.fillTable(listID, listName, 0);
-            listID.clear();
-            listName.clear();
-        }//end if
-
-        if (main.exists(receivedJSON["list"], "userIN"))
-        {
-            for(auto& json : receivedJSON["list"]["userIN"].items())
-            {
-                JSON key = json.value();
-
-                listID << QString::number(key["userID"].get<int>());
-                listName << QString::fromStdString(key["name"]);
-                std::cout << " ID: "<< key["userID"] << " , name: " << key["name"] << std::endl;
-            }
-        }//end if
-
-        if(!listID.isEmpty())
-        {
-            main.fillTable(listID, listName, 1);
-        }//end if
+        load(receivedJSON, main);
     }
     else if (action == "admin")
     {
@@ -93,10 +56,55 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
             main.warningMsg("Invalid login credentials!");
         }//end if
     }
-    else if (action == "add")
+    else if (action == "add" || action == "modify")
     {
-
+        if(receivedJSON["error"] == 0)
+        {
+            main.load();
+        }//end if
     }//end if
 
+}
+
+void Handler::load(JSON receivedJSON, MainWindow& main)
+{
+    QStringList listID;
+    QStringList listName;
+
+    if (main.exists(receivedJSON["list"], "userOUT"))
+    {
+        for(auto& json : receivedJSON["list"]["userOUT"].items())
+        {
+            JSON key = json.value();
+
+            listID << QString::number(key["userID"].get<int>());
+            listName << QString::fromStdString(key["name"]);
+            std::cout << " ID: "<< key["userID"] << " , name: " << key["name"] << std::endl;
+        }
+    }//end if
+
+    if(!listID.isEmpty())
+    {
+        main.fillTable(listID, listName, 0);
+        listID.clear();
+        listName.clear();
+    }//end if
+
+    if (main.exists(receivedJSON["list"], "userIN"))
+    {
+        for(auto& json : receivedJSON["list"]["userIN"].items())
+        {
+            JSON key = json.value();
+
+            listID << QString::number(key["userID"].get<int>());
+            listName << QString::fromStdString(key["name"]);
+            std::cout << " ID: "<< key["userID"] << " , name: " << key["name"] << std::endl;
+        }
+    }//end if
+
+    if(!listID.isEmpty())
+    {
+        main.fillTable(listID, listName, 1);
+    }//end if
 }
 

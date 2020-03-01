@@ -11,6 +11,40 @@ Database::Database()
     m_database.setPassword("");
 }
 
+bool Database::modify(const int id, const std::string logName, const std::string logPassword)
+{
+    QString password = QString::fromStdString(logPassword);
+    QString name = QString::fromStdString(logName);
+
+    bool result{false};
+    bool isOK = m_database.open();
+    JSON dbJSON;
+    qDebug() << m_database.lastError().text();
+
+    qDebug() << isOK;
+
+    if(isOK)
+    {
+        QSqlQuery query;
+        query.prepare("UPDATE users SET name = ? WHERE user_id = ?;");
+        query.addBindValue(name);
+        query.addBindValue(id);
+
+        result = query.exec();
+
+        if(password != "")
+        {
+            query.prepare("UPDATE login SET password = crypt(?, gen_salt('bf')) WHERE user_id = ?;");
+            query.addBindValue(password);
+            query.addBindValue(id);
+            result = query.exec();
+        }//end if
+    }//end if
+
+    m_database.close();
+    return result;
+}
+
 bool Database::admin(const std::string logUser, const std::string logPassword)
 {
     QString user = QString::fromStdString(logUser);
@@ -59,10 +93,12 @@ bool Database::addUser(const std::string logName, const std::string logPassword)
         ///Check if there's no current user with same name.
         query.prepare("SELECT user_id FROM users WHERE name = ?;");
         query.addBindValue(name);
+
+        query.exec();
         qDebug() << query.size();
 
-        ///query returns -1 if empty. Insert user and new login info for user.
-        if(query.size() == -1)
+        ///query returns 0 if empty. Insert user and new login info for user.
+        if(query.size() == 0)
         {
             query.prepare("INSERT INTO users (name) VALUES (?);");
             query.addBindValue(name);

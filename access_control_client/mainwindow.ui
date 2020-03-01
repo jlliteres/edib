@@ -66,6 +66,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="btnModify">
+        <property name="text">
+         <string>Modify...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="btnLock">
         <property name="text">
          <string>Unlock...</string>
@@ -162,7 +169,7 @@
          </font>
         </property>
         <property name="text">
-         <string>                               </string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

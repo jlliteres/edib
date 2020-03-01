@@ -13,6 +13,7 @@ public:
     void responseHandler(const JSON&, MainWindow&);
 
 private:
+    void load(JSON, MainWindow&);
 
 };
 

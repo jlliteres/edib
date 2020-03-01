@@ -16,9 +16,14 @@ public:
     ~AddUser();
     std::string user();
     std::string password();
+    void setUser(QString);
+    void showChangePassword(bool);
 
 public slots:
     void checkPassword(const QString&);
+
+private slots:
+    void on_changePassword_toggled(bool checked);
 
 private:
     Ui::AddUser *m_ui;

@@ -17,6 +17,7 @@ private:
     JSON load(const JSON&);
     JSON admin(JSON, std::string user, std::string password);
     JSON add(JSON, std::string user, std::string password);
+    JSON modify(JSON, int, std::string user, std::string password);
     Database m_database;
 
 

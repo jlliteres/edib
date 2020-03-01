@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ui->btnClose->setEnabled(false);
     m_ui->btnOpen->setEnabled(true);
     m_ui->btnAdd->setEnabled(false);
+    m_ui->btnModify->setEnabled(false);
     m_ui->btnLock->setEnabled(false);
     m_ui->btnDelete->setEnabled(false);
 
@@ -120,6 +121,7 @@ void MainWindow::unlock()
     ///Visual changes for admin privileges
     m_ui->btnLock->setText("Lock");
     m_ui->btnAdd->setEnabled(true);
+    m_ui->btnModify->setEnabled(true);
     m_ui->btnDelete->setEnabled(true);
     m_ui->actionS_tatus->setEnabled(true);
     m_isLocked = false;
@@ -132,6 +134,7 @@ void MainWindow::lock()
     m_ui->actionS_tatus->setEnabled(false);
     m_ui->btnAdd->setEnabled(false);
     m_ui->btnDelete->setEnabled(false);
+    m_ui->btnModify->setEnabled(false);
     m_isLocked = true;
 }
 
