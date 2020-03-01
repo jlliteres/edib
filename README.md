@@ -7,7 +7,7 @@ Se pretende crear un control de acceso instalable en cualquier dispositivo, que 
 
 ## Cómo funciona
 El usuario visualiza el listado de trabajadores que no están trabajando y los que sí lo hacen, pudiendo filtrar la lista para encontrar su nombre, deberá seleccionarlo y, a continuación, insertar una contraseña que sólo conecerá él, para así garantizar la autenticidad del trabajador. Automáticamente se envía la información al servidor que lo registra en la base de datos si no hay errores y el usuario cambia a la columna de personas que están trabajando.
-
+[Handler](acces_control_client/handler.h)
 ## Herramientas utilizadas
 - [Qt Creator(c++)](https://www.qt.io/)
 - [PostgreSQL](https://www.postgresql.org/)
