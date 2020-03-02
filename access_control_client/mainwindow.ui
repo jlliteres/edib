@@ -192,12 +192,6 @@
      <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuServer">
-    <property name="title">
-     <string>&amp;Server</string>
-    </property>
-    <addaction name="actionS_tatus"/>
-   </widget>
    <widget class="QMenu" name="menu_File">
     <property name="title">
      <string>&amp;File</string>
@@ -211,20 +205,8 @@
     <addaction name="action_Info"/>
    </widget>
    <addaction name="menu_File"/>
-   <addaction name="menuServer"/>
    <addaction name="menu_Log"/>
   </widget>
-  <action name="actionS_tatus">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>S&amp;tatus</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
-   </property>
-  </action>
   <action name="action_Exit">
    <property name="text">
     <string>&amp;Exit</string>

@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ui->btnDelete->setEnabled(false);
 
     ///Menu buttons
-    m_ui->actionS_tatus->setEnabled(false);
+    m_ui->action_Info->setEnabled(false);
 
     ///Table
     m_ui->tblOUT->setColumnHidden(0, true);
@@ -90,7 +90,7 @@ void MainWindow::init_server(QString url)
                     if(exists(receivedObject, "action"))
                     {
                         Handler handler;
-                        handler.responseHandler(receivedObject, *this);
+                        handler.responseHandler(receivedObject, this);
                     }//end if
                 }//end if
 
@@ -120,7 +120,6 @@ void MainWindow::unlock()
     m_ui->btnAdd->setEnabled(true);
     m_ui->btnModify->setEnabled(true);
     m_ui->btnDelete->setEnabled(true);
-    m_ui->actionS_tatus->setEnabled(true);
     m_ui->action_Info->setEnabled(true);
     m_isLocked = false;
 }
@@ -129,7 +128,6 @@ void MainWindow::lock()
 {
     ///Visual changes for non-admin privileges
     m_ui->btnLock->setText("Unlock...");
-    m_ui->actionS_tatus->setEnabled(false);
     m_ui->action_Info->setEnabled(false);
     m_ui->btnAdd->setEnabled(false);
     m_ui->btnDelete->setEnabled(false);
@@ -213,7 +211,7 @@ void MainWindow::loginUser(const QString& action, int switcher)
     ///Show login window and send JSON to server IF there's a selected item.
     if(table->currentItem() != nullptr)
     {
-        Login *login{new Login()};
+        Login *login{new Login(this)};
         login->show();
         login->setUser(table->currentItem()->text());
 
@@ -274,7 +272,7 @@ bool MainWindow::exists(const JSON& json, const std::string& key)
 void MainWindow::on_btnAdd_clicked()
 {
     ///Open AddUser dialog
-    AddUser *add{new AddUser()};
+    AddUser *add{new AddUser(this)};
     add->show();
 
     ///Send new user info to server
@@ -296,7 +294,7 @@ void MainWindow::on_btnLock_clicked()
     ///Open login dialog
    if(m_isLocked)
    {
-       Login *login{new Login()};
+       Login *login{new Login(this)};
        login->show();
 
     ///Send admin login to server
@@ -349,7 +347,7 @@ void MainWindow::on_btnModify_clicked()
 {
     if(m_ui->tblOUT->currentItem() != nullptr)
     {
-        AddUser *info{new AddUser()};
+        AddUser *info{new AddUser(this)};
         info->setUser(m_ui->tblOUT->currentItem()->text());
         info->setWindowTitle("Modify user");
         info->showChangePassword(true);
@@ -373,7 +371,7 @@ void MainWindow::on_btnModify_clicked()
 
 void MainWindow::fillLog(QStringList listName, QStringList listEnter, QStringList listExit)
 {
-    Log *log{new Log()};
+    Log *log{new Log(this)};
 
     log->show();
     log->load(listName, listEnter, listExit);
@@ -392,7 +390,7 @@ void MainWindow::on_btnDelete_clicked()
 {
     if(m_ui->tblOUT->currentItem() != nullptr)
     {
-        Login *confirm{new Login()};
+        Login *confirm{new Login(this)};
         confirm->setWindowTitle("Delete user");
         confirm->hidePassword(true);
         confirm->setUser(m_ui->tblOUT->currentItem()->text());

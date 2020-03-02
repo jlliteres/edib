@@ -5,7 +5,7 @@ Database::Database()
 
     m_database = QSqlDatabase::addDatabase("QPSQL");
     m_database.setHostName("localhost");
-    m_database.setDatabaseName("prueba");
+    m_database.setDatabaseName("access_control");
     m_database.setPort(5432);
     m_database.setUserName("postgres");
     m_database.setPassword("");
