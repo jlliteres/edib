@@ -30,7 +30,7 @@ SOURCES += \
     handler.cpp \
     adduser.cpp \
     log.cpp
-
+TRANSLATIONS += es_ES.ts
 HEADERS += \
         mainwindow.h \
     json.hpp \
