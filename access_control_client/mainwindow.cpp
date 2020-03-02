@@ -3,6 +3,7 @@
 #include "login.h"
 #include "adduser.h"
 #include "handler.h"
+#include "log.h"
 
 #include <QTimer>
 #include <QDateTime>
@@ -27,8 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("Access Control");
 
     ///Buttons
-    m_ui->btnClose->setEnabled(false);
-    m_ui->btnOpen->setEnabled(true);
     m_ui->btnAdd->setEnabled(false);
     m_ui->btnModify->setEnabled(false);
     m_ui->btnLock->setEnabled(false);
@@ -44,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ui->tblIN->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     m_serverUrl = "ws://localhost:9900/";
-
+    init_server(m_serverUrl);
     ///Clock timer
     QTimer *timer = new QTimer(this);
     timer->setInterval(1000);
@@ -71,8 +70,6 @@ void MainWindow::init_server(QString url)
             ///Load info on open connection
             if (msg->type == ix::WebSocketMessageType::Open)
             {
-                m_ui->btnClose->setEnabled(true);
-                m_ui->btnOpen->setEnabled(false);
                 m_ui->btnLock->setEnabled(true);
                 load();
 
@@ -124,6 +121,7 @@ void MainWindow::unlock()
     m_ui->btnModify->setEnabled(true);
     m_ui->btnDelete->setEnabled(true);
     m_ui->actionS_tatus->setEnabled(true);
+    m_ui->action_Info->setEnabled(true);
     m_isLocked = false;
 }
 
@@ -132,6 +130,7 @@ void MainWindow::lock()
     ///Visual changes for non-admin privileges
     m_ui->btnLock->setText("Unlock...");
     m_ui->actionS_tatus->setEnabled(false);
+    m_ui->action_Info->setEnabled(false);
     m_ui->btnAdd->setEnabled(false);
     m_ui->btnDelete->setEnabled(false);
     m_ui->btnModify->setEnabled(false);
@@ -153,7 +152,6 @@ void MainWindow::fillTable(QStringList listID, QStringList listName, int switche
 
     /// Restart table and set headers
     table->setRowCount(0);
-
     table->setHorizontalHeaderLabels(QStringList() << "ID" << "Name");
 
     ///Fill the tables with the database data
@@ -183,7 +181,7 @@ void MainWindow::logUser(int switcher)
     QTableWidget* tableStart;
     QTableWidget* tableEnd;
 
-    /// 'swicther' sets the START table and the END table.
+    ///'swicther' sets the START table and the END table.
     if (switcher == 0)
     {
         tableStart = m_ui->tblOUT;
@@ -337,22 +335,6 @@ void MainWindow::on_filterIn_textChanged(const QString &text)
     filter(text, 1);
 }
 
-void MainWindow::on_btnOpen_clicked()
-{
-    init_server(m_serverUrl);
-
-}
-
-void MainWindow::on_btnClose_clicked()
-{
-    lock();
-    m_webSocket.stop();
-    m_clientID = 1;
-    m_ui->btnClose->setEnabled(false);
-    m_ui->btnOpen->setEnabled(true);
-    m_ui->btnLock->setEnabled(false);
-}
-
 void MainWindow::on_btnEnter_clicked()
 {
     loginUser("enter", 0);
@@ -363,4 +345,67 @@ void MainWindow::on_btnExit_clicked()
     loginUser("exit", 1);
 }
 
+void MainWindow::on_btnModify_clicked()
+{
+    if(m_ui->tblOUT->currentItem() != nullptr)
+    {
+        AddUser *info{new AddUser()};
+        info->setUser(m_ui->tblOUT->currentItem()->text());
+        info->setWindowTitle("Modify user");
+        info->showChangePassword(true);
+        info->show();
 
+        connect(info, &AddUser::accepted, [this, info](){
+
+                JSON modifyJSON;
+                modifyJSON["clientID"] = m_clientID++;
+                modifyJSON["action"] = "modify";
+                modifyJSON["id"] = m_ui->tblOUT->item(m_ui->tblOUT->currentRow(), 0)->text().toInt();
+                modifyJSON["user"] = info->user();
+                modifyJSON["password"] = info->password();
+
+                qDebug() << QString::fromStdString(modifyJSON.dump());
+
+                m_webSocket.send(modifyJSON.dump());
+        });
+    }//end if
+}
+
+void MainWindow::fillLog(QStringList listName, QStringList listEnter, QStringList listExit)
+{
+    Log *log{new Log()};
+
+    log->show();
+    log->load(listName, listEnter, listExit);
+}
+void MainWindow::on_action_Info_triggered()
+{
+    JSON message;
+    message["action"] = "log";
+    message["clientID"] = m_clientID++;
+
+    m_webSocket.send(message.dump());
+
+}
+
+void MainWindow::on_btnDelete_clicked()
+{
+    if(m_ui->tblOUT->currentItem() != nullptr)
+    {
+        Login *confirm{new Login()};
+        confirm->setWindowTitle("Delete user");
+        confirm->hidePassword(true);
+        confirm->setUser(m_ui->tblOUT->currentItem()->text());
+        confirm->show();
+
+        connect(confirm, &Login::accepted, [this](){
+
+                JSON deleteJSON;
+                deleteJSON["clientID"] = m_clientID++;
+                deleteJSON["action"] = "delete";
+                deleteJSON["id"] = m_ui->tblOUT->item(m_ui->tblOUT->currentRow(), 0)->text().toInt();
+                m_webSocket.send(deleteJSON.dump());
+        });
+    }//end if
+
+}

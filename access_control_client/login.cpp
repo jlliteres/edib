@@ -8,6 +8,7 @@ Login::Login(QWidget *parent) :
     m_ui->setupUi(this);
     this->setWindowTitle("Login");
     setFixedSize(size());
+    m_ui->warning->setHidden(true);
 }
 
 Login::~Login()
@@ -29,4 +30,11 @@ std::string Login::user()
 std::string Login::password()
 {
     return m_ui->password->text().toStdString();
+}
+
+void Login::hidePassword(bool state)
+{
+    m_ui->lblPassword->setHidden(state);
+    m_ui->password->setHidden(state);
+    m_ui->warning->setHidden(!state);
 }

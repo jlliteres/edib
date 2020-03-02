@@ -28,7 +28,8 @@ public:
 
     void logUser(int);
     void fillTable(QStringList, QStringList, int);
-    void warningMsg(QString);
+
+    void fillLog(QStringList, QStringList, QStringList);
 
     bool exists(const JSON&, const std::string&);
 
@@ -36,14 +37,12 @@ public slots:
     void loginUser(const QString&, int);
     void filter(const QString&, int);
 
-private slots:
-    void on_btnClose_clicked();
-    void on_btnOpen_clicked();
+    void warningMsg(QString);
 
+private slots:
     void on_btnLock_clicked();
 
     void on_action_Exit_triggered();
-
     void on_filterOut_textChanged(const QString &arg1);
     void on_filterIn_textChanged(const QString &arg1);
 
@@ -51,6 +50,11 @@ private slots:
     void on_btnExit_clicked();
 
     void on_btnAdd_clicked();
+    void on_btnModify_clicked();
+
+    void on_action_Info_triggered();
+
+    void on_btnDelete_clicked();
 
 private:
     Ui::MainWindow *m_ui;

@@ -40,14 +40,36 @@ JSON Handler::responseHandler(const JSON& receivedJSON, const int serverID)
     {
         responseJSON = modify(responseJSON, receivedJSON["id"].get<int>(), receivedJSON["user"], receivedJSON["password"]);
     }
+    else if (action == "log")
+    {
+        responseJSON = log(responseJSON);
+    }
     else if (action == "delete")
     {
-        //responseJSON = add(responseJSON, receivedJSON["user"], receivedJSON["password"]);
+        responseJSON = deleteUser(responseJSON, receivedJSON["id"].get<int>());
     }//end if
 
     return responseJSON;
 }
 
+
+JSON Handler::deleteUser(JSON responseJSON, int id)
+{
+    JSON dbJSON = responseJSON;
+    dbJSON["action"] = "delete";
+
+    ///Problem deleting user, error = 1
+    if(m_database.deleteUser(id))
+    {
+        dbJSON["error"] = 0;
+    }
+    else
+    {
+        dbJSON["error"] = 1;
+    }//end if
+
+    return dbJSON;
+}
 JSON Handler::modify(JSON responseJSON, int id, std::string user, std::string password)
 {
     JSON dbJSON = responseJSON;
@@ -98,6 +120,16 @@ JSON Handler::admin(JSON responseJSON, std::string user, std::string password)
     {
         dbJSON["error"] = 1;
     }//end if
+
+    return dbJSON;
+}
+
+JSON Handler::log(const JSON& responseJSON)
+{
+    JSON dbJSON = responseJSON;
+    dbJSON["action"] = "log";
+
+    dbJSON["list"] = m_database.log();
 
     return dbJSON;
 }

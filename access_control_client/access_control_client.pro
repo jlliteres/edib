@@ -28,19 +28,22 @@ SOURCES += \
         mainwindow.cpp \
     login.cpp \
     handler.cpp \
-    adduser.cpp
+    adduser.cpp \
+    log.cpp
 
 HEADERS += \
         mainwindow.h \
     json.hpp \
     login.h \
     handler.h \
-    adduser.h
+    adduser.h \
+    log.h
 
 FORMS += \
         mainwindow.ui \
     login.ui \
-    adduser.ui
+    adduser.ui \
+    log.ui
 
 LIBS += -pthread -lz
 # Default rules for deployment.

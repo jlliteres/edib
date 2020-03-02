@@ -13,11 +13,13 @@ class Database
 public:
     Database();
     JSON load();
+    JSON log();
     bool admin(const std::string, const std::string);
     bool enter(const int, const std::string);
     bool exit(const int, const std::string);
     bool addUser(const std::string, const std::string);
     bool modify(const int, const std::string, const std::string);
+    bool deleteUser(const int);
 
     QSqlDatabase m_database;
 };

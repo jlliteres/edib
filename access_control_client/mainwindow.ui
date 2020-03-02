@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
+    <item row="2" column="0">
      <widget class="QLineEdit" name="filterOut">
       <property name="text">
        <string/>
@@ -25,25 +25,10 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="2" rowspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="btnOpen">
-        <property name="text">
-         <string>Open</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btnClose">
-        <property name="text">
-         <string>Close</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <item row="6" column="2" rowspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
     </item>
-    <item row="3" column="0" rowspan="4">
+    <item row="4" column="0" rowspan="4">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="btnAdd">
@@ -81,7 +66,7 @@
       </item>
      </layout>
     </item>
-    <item row="2" column="2">
+    <item row="3" column="2">
      <widget class="QTableWidget" name="tblIN">
       <column>
        <property name="text">
@@ -95,14 +80,14 @@
       </column>
      </widget>
     </item>
-    <item row="1" column="2">
+    <item row="2" column="2">
      <widget class="QLineEdit" name="filterIn">
       <property name="placeholderText">
        <string>Search...</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
+    <item row="3" column="1">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QPushButton" name="btnEnter">
@@ -120,7 +105,7 @@
       </item>
      </layout>
     </item>
-    <item row="2" column="0">
+    <item row="3" column="0">
      <widget class="QTableWidget" name="tblOUT">
       <column>
        <property name="text">
@@ -137,26 +122,9 @@
     <item row="0" column="0" colspan="3">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QLabel" name="label_2">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>OUT</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="clock">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -176,24 +144,41 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>IN</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
      </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>OUT</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>IN</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -219,8 +204,15 @@
     </property>
     <addaction name="action_Exit"/>
    </widget>
+   <widget class="QMenu" name="menu_Log">
+    <property name="title">
+     <string>&amp;Log</string>
+    </property>
+    <addaction name="action_Info"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menuServer"/>
+   <addaction name="menu_Log"/>
   </widget>
   <action name="actionS_tatus">
    <property name="enabled">
@@ -239,6 +231,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_Info">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Info</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>

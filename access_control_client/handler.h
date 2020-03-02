@@ -6,7 +6,7 @@
 
 using JSON = nlohmann::json;
 
-class Handler
+class Handler : public QObject
 {
 public:
     Handler();

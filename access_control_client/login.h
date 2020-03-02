@@ -18,7 +18,7 @@ public:
     void setUser(QString);
     std::string user();
     std::string password();
-
+    void hidePassword(bool);
 private slots:
 
 private:

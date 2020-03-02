@@ -15,6 +15,8 @@ private:
     JSON enter(const JSON&, int user, std::string password);
     JSON exit(const JSON&, int user, std::string password);
     JSON load(const JSON&);
+    JSON log(const JSON&);
+    JSON deleteUser(JSON, int user);
     JSON admin(JSON, std::string user, std::string password);
     JSON add(JSON, std::string user, std::string password);
     JSON modify(JSON, int, std::string user, std::string password);

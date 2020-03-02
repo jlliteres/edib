@@ -56,12 +56,31 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
             main.warningMsg("Invalid login credentials!");
         }//end if
     }
-    else if (action == "add" || action == "modify")
+    else if (action == "add" || action == "modify" || action == "delete")
     {
         if(receivedJSON["error"] == 0)
         {
             main.load();
         }//end if
+    }
+    else if (action == "log")
+    {
+        QStringList listName;
+        QStringList listEnter;
+        QStringList listExit;
+
+        for(auto& json : receivedJSON["list"]["log"].items())
+        {
+            JSON key = json.value();
+
+            listName << QString::fromStdString(key["name"]);
+            listEnter << QString::fromStdString(key["enter"]);
+            listExit << QString::fromStdString(key["exit"]);
+
+            std::cout << " ID: "<< key["name"] << " , enter: " << key["enter"] << std::endl;
+        }
+
+        main.fillLog(listName, listEnter, listExit);
     }//end if
 
 }
