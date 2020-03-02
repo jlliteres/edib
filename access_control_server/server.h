@@ -1,3 +1,11 @@
+/**
+    @file server.h
+    @version 1.0
+    @date 02/03/2020
+    @author Josep Lliteres
+    @title Object for server management.
+    @brief Object for server connection and message recieving.
+  */
 #ifndef SERVER_H
 #define SERVER_H
 #include "json.hpp"
@@ -13,7 +21,13 @@ using JSON = nlohmann::json;
 class Server
 {
 public:
+    /**
+     * @brief Server Default constructor.
+     */
     Server();
+    /**
+     * @brief init_server Initializes server.
+     */
     void init_server();
 
 private:

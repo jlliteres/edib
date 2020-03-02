@@ -11,7 +11,7 @@ Handler::Handler()
 
 }
 
-void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
+void Handler::responseHandler(const JSON& receivedJSON, MainWindow* main)
 {
     ///1) Get data
 
@@ -23,11 +23,11 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
     {
         if(receivedJSON["error"] == 0)
         {
-            main.logUser(0);
+            main->logUser(0);
         }
         else
         {
-            main.warningMsg("Invalid login credentials!");
+            main->warningMsg("Invalid login credentials!");
         }//end if
     }
     else if (action == "load")
@@ -38,29 +38,29 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
     {
         if(receivedJSON["error"] == 0)
         {
-            main.unlock();
+            main->unlock();
         }
         else
         {
-            main.warningMsg("Invalid admin credentials!");
+            main->warningMsg("Invalid admin credentials!");
         }//end if
     }
     else if (action == "exit")
     {
         if(receivedJSON["error"] == 0)
         {
-            main.logUser(1);
+            main->logUser(1);
         }
         else
         {
-            main.warningMsg("Invalid login credentials!");
+            main->warningMsg("Invalid login credentials!");
         }//end if
     }
     else if (action == "add" || action == "modify" || action == "delete")
     {
         if(receivedJSON["error"] == 0)
         {
-            main.load();
+            main->load();
         }//end if
     }
     else if (action == "log")
@@ -80,17 +80,17 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
             std::cout << " ID: "<< key["name"] << " , enter: " << key["enter"] << std::endl;
         }
 
-        main.fillLog(listName, listEnter, listExit);
+        main->fillLog(listName, listEnter, listExit);
     }//end if
 
 }
 
-void Handler::load(JSON receivedJSON, MainWindow& main)
+void Handler::load(JSON receivedJSON, MainWindow* main)
 {
     QStringList listID;
     QStringList listName;
 
-    if (main.exists(receivedJSON["list"], "userOUT"))
+    if (main->exists(receivedJSON["list"], "userOUT"))
     {
         for(auto& json : receivedJSON["list"]["userOUT"].items())
         {
@@ -104,12 +104,12 @@ void Handler::load(JSON receivedJSON, MainWindow& main)
 
     if(!listID.isEmpty())
     {
-        main.fillTable(listID, listName, 0);
+        main->fillTable(listID, listName, 0);
         listID.clear();
         listName.clear();
     }//end if
 
-    if (main.exists(receivedJSON["list"], "userIN"))
+    if (main->exists(receivedJSON["list"], "userIN"))
     {
         for(auto& json : receivedJSON["list"]["userIN"].items())
         {
@@ -123,7 +123,7 @@ void Handler::load(JSON receivedJSON, MainWindow& main)
 
     if(!listID.isEmpty())
     {
-        main.fillTable(listID, listName, 1);
+        main->fillTable(listID, listName, 1);
     }//end if
 }
 
