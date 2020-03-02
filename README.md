@@ -21,7 +21,7 @@ Se pretende crear un control de acceso instalable en cualquier dispositivo, que 
 3. Si las credenciales son correctas, se desbloquean las opciones de:
    - Agregar un usuario.
    - Eliminar un usuario.
-   - Ver información de la conexión con el servidor.
+   - Modificar un usuario.
    - Comprobar las entradas y salidas de los usuarios.
 4. Se bloquean las opciones pulsando _Lock..._
 
