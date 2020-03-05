@@ -75,10 +75,17 @@ public:
      * @return Returns true if correct.
      */
     bool deleteUser(const int id);
-    /**
-     * @brief m_database Variable to store the database.
-     */
+
+
+private:
+
     QSqlDatabase m_database;
+    void processLine(std::string line);
+    void readFile();
+    void loadProperties();
+
+    std::map<std::string, std::string> m_properties;
+
 };
 
 #endif // DATABASE_H

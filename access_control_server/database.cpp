@@ -1,14 +1,57 @@
 #include "database.h"
 
+#include <QFile>
+
 Database::Database()
 {
+    loadProperties();
+}
+
+
+
+void Database::loadProperties()
+{
+    readFile();
 
     m_database = QSqlDatabase::addDatabase("QPSQL");
-    m_database.setHostName("localhost");
-    m_database.setDatabaseName("access_control");
-    m_database.setPort(5432);
-    m_database.setUserName("postgres");
-    m_database.setPassword("");
+    m_database.setHostName(QString::fromStdString(m_properties["host"]));
+    m_database.setDatabaseName(QString::fromStdString(m_properties["name"]));
+    m_database.setPort(QString::fromStdString(m_properties["port"]).toInt());
+    m_database.setUserName(QString::fromStdString(m_properties["user"]));
+    m_database.setPassword(QString::fromStdString(m_properties["password"]));
+}
+
+void Database::readFile()
+{
+    QString path = "/home/jllp/edib/database_config.conf";
+
+    if(QFile::exists(path))
+    {
+        QFile file(path);
+
+        if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            while (!file.atEnd())
+            {
+                std::string line = file.readLine().toStdString();
+                processLine(line);
+            }
+        }//end if
+    }
+    else
+    {
+        qDebug() << "File not found";
+    }//end if
+}
+
+void Database::processLine(std::string line)
+{
+    std::string newLine = line.substr(0, line.rfind("\n"));
+    std::string key = newLine.substr(0, newLine.rfind("="));
+    std::string value = newLine.substr(newLine.rfind("=") + 1, newLine.size());
+    qDebug() << key.c_str();
+    qDebug() << value.c_str();
+    m_properties[key] = value;
 }
 
 bool Database::modify(const int id, const std::string logName, const std::string logPassword)
