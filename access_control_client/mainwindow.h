@@ -100,11 +100,9 @@ public slots:
      * @endcode
      */
     void filter(const QString& text, int switcher);
-    /**
-     * @brief warningMsg Shows a warning window with the given message.
-     * @param msg Message to show.
-     */
-    void warningMsg(QString msg);
+
+signals:
+    void signalLog(QStringList, QStringList, QStringList);
 
 private slots:
     void on_btnLock_clicked();

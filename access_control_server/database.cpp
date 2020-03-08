@@ -23,7 +23,7 @@ void Database::loadProperties()
 
 void Database::readFile()
 {
-    QString path = "/home/jllp/edib/database_config.conf";
+    QString path = "../database_config.conf";
 
     if(QFile::exists(path))
     {

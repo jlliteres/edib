@@ -6,11 +6,12 @@ Log::Log(QWidget *parent) :
     QDialog(parent),
     m_ui(new Ui::Log)
 {
+
     m_ui->setupUi(this);
     setFixedSize(size());
     m_ui->table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
 }
+
 
 Log::~Log()
 {

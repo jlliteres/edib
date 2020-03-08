@@ -1,5 +1,5 @@
 #include "handler.h"
-
+#include "log.h"
 #include <QString>
 #include <QStringList>
 #include <QDebug>
@@ -11,7 +11,7 @@ Handler::Handler()
 
 }
 
-void Handler::responseHandler(const JSON& receivedJSON, MainWindow* main)
+void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
 {
     ///1) Get data
 
@@ -27,7 +27,7 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow* main)
         }
         else
         {
-            main->warningMsg("Invalid login credentials!");
+            warningMsg(tr("Invalid login credentials!"));
         }//end if
     }
     else if (action == "load")
@@ -42,7 +42,7 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow* main)
         }
         else
         {
-            main->warningMsg("Invalid admin credentials!");
+            warningMsg(tr("Invalid admin credentials!"));
         }//end if
     }
     else if (action == "exit")
@@ -53,7 +53,7 @@ void Handler::responseHandler(const JSON& receivedJSON, MainWindow* main)
         }
         else
         {
-            main->warningMsg("Invalid login credentials!");
+            warningMsg(tr("Invalid login credentials!"));
         }//end if
     }
     else if (action == "add" || action == "modify" || action == "delete")
@@ -127,3 +127,12 @@ void Handler::load(JSON receivedJSON, MainWindow* main)
     }//end if
 }
 
+
+void Handler::warningMsg(QString msg)
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Error");
+    msgBox.setText(msg);
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.exec();
+}

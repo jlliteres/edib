@@ -150,7 +150,7 @@ void MainWindow::fillTable(QStringList listID, QStringList listName, int switche
 
     /// Restart table and set headers
     table->setRowCount(0);
-    table->setHorizontalHeaderLabels(QStringList() << "ID" << "Name");
+    table->setHorizontalHeaderLabels(QStringList() << "ID" << tr("Name"));
 
     ///Fill the tables with the database data
     for(QString id : listID)
@@ -253,15 +253,6 @@ void MainWindow::filter(const QString& filter, int switcher)
         }
         table->setRowHidden(i, !match);
     }
-}
-
-void MainWindow::warningMsg(QString msg)
-{
-    QMessageBox msgBox(this);
-    msgBox.setWindowTitle("Error");
-    msgBox.setText(msg);
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.exec();
 }
 
 bool MainWindow::exists(const JSON& json, const std::string& key)
@@ -372,10 +363,14 @@ void MainWindow::on_btnModify_clicked()
 void MainWindow::fillLog(QStringList listName, QStringList listEnter, QStringList listExit)
 {
     Log *log{new Log(this)};
+    log->moveToThread(this->thread());
+    connect(this,SIGNAL(signalLog(QStringList, QStringList, QStringList)),log,SLOT(load(QStringList, QStringList, QStringList)));
+
+    emit signalLog(listName, listEnter, listExit);
 
     log->show();
-    log->load(listName, listEnter, listExit);
 }
+
 void MainWindow::on_action_Info_triggered()
 {
     JSON message;

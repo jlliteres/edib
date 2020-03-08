@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.1">
 <context>
     <name>AddUser</name>
     <message>
@@ -160,7 +160,6 @@
     <message>
         <location filename="mainwindow.ui" line="212"/>
         <source>E&amp;xit</source>
-        <oldsource>&amp;Exit</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

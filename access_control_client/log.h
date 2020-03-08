@@ -11,6 +11,7 @@
 
 #include <QDialog>
 #include <QStringList>
+#include <QAbstractButton>
 
 namespace Ui {
 class Log;
@@ -36,9 +37,10 @@ public:
      * @param listEnter QStringList of all the enter_time of the users.
      * @param listExit QStringList of all the exit_time of the users.
      */
-    void load(QStringList listName, QStringList listEnter, QStringList listExit);
 
-private slots:
+
+public slots:
+     void load(QStringList listName, QStringList listEnter, QStringList listExit);
 
 private:
     Ui::Log *m_ui;
