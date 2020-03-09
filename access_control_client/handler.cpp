@@ -11,7 +11,7 @@ Handler::Handler()
 
 }
 
-void Handler::responseHandler(const JSON& receivedJSON, MainWindow& main)
+void Handler::responseHandler(const JSON& receivedJSON, MainWindow* main)
 {
     ///1) Get data
 

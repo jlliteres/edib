@@ -6,7 +6,7 @@ Login::Login(QWidget *parent) :
     m_ui(new Ui::Login)
 {
     m_ui->setupUi(this);
-    this->setWindowTitle("Login");
+    this->setWindowTitle(tr("Login"));
     setFixedSize(size());
     m_ui->warning->setHidden(true);
 }

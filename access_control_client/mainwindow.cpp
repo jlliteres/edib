@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     m_ui->setupUi(this);
 
-    this->setWindowTitle("Access Control");
+    this->setWindowTitle(tr("Access Control"));
 
     ///Buttons
     m_ui->btnAdd->setEnabled(false);
@@ -116,7 +116,7 @@ void MainWindow::load()
 void MainWindow::unlock()
 {
     ///Visual changes for admin privileges
-    m_ui->btnLock->setText("Lock");
+    m_ui->btnLock->setText(tr("Lock"));
     m_ui->btnAdd->setEnabled(true);
     m_ui->btnModify->setEnabled(true);
     m_ui->btnDelete->setEnabled(true);
@@ -127,7 +127,7 @@ void MainWindow::unlock()
 void MainWindow::lock()
 {
     ///Visual changes for non-admin privileges
-    m_ui->btnLock->setText("Unlock...");
+    m_ui->btnLock->setText(tr("Unlock..."));
     m_ui->action_Info->setEnabled(false);
     m_ui->btnAdd->setEnabled(false);
     m_ui->btnDelete->setEnabled(false);

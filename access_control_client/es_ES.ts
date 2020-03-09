@@ -6,27 +6,27 @@
     <message>
         <location filename="adduser.ui" line="14"/>
         <source>New User</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuevo Usuario</translation>
     </message>
     <message>
         <location filename="adduser.ui" line="41"/>
         <source>User name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre:</translation>
     </message>
     <message>
         <location filename="adduser.ui" line="62"/>
         <source>Password: </source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña: </translation>
     </message>
     <message>
         <location filename="adduser.ui" line="83"/>
         <source>Confirm Pasword:</source>
-        <translation type="unfinished"></translation>
+        <translation>Repite contraseña:</translation>
     </message>
     <message>
         <location filename="adduser.ui" line="159"/>
         <source>Change password?</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar contraseña?</translation>
     </message>
 </context>
 <context>
@@ -35,12 +35,12 @@
         <location filename="handler.cpp" line="30"/>
         <location filename="handler.cpp" line="56"/>
         <source>Invalid login credentials!</source>
-        <translation type="unfinished"></translation>
+        <translation>Credenciales de login no válidas!</translation>
     </message>
     <message>
         <location filename="handler.cpp" line="45"/>
         <source>Invalid admin credentials!</source>
-        <translation type="unfinished"></translation>
+        <translation>Credenciales de admin inválidas!</translation>
     </message>
 </context>
 <context>
@@ -48,14 +48,29 @@
     <message>
         <location filename="log.ui" line="14"/>
         <source>Users log</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro usuarios</translation>
     </message>
     <message>
         <location filename="log.ui" line="35"/>
         <location filename="log.ui" line="40"/>
         <location filename="log.ui" line="45"/>
         <source>New Column</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva Columna</translation>
+    </message>
+    <message>
+        <location filename="log.cpp" line="30"/>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <location filename="log.cpp" line="30"/>
+        <source>enter_time</source>
+        <translation>entrada</translation>
+    </message>
+    <message>
+        <location filename="log.cpp" line="30"/>
+        <source>exit_time</source>
+        <translation>salida</translation>
     </message>
 </context>
 <context>
@@ -63,22 +78,27 @@
     <message>
         <location filename="login.ui" line="23"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Login</translation>
     </message>
     <message>
         <location filename="login.ui" line="45"/>
         <source>User:</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuario:</translation>
     </message>
     <message>
         <location filename="login.ui" line="66"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña:</translation>
     </message>
     <message>
         <location filename="login.ui" line="132"/>
         <source>Are you sure?</source>
-        <translation type="unfinished"></translation>
+        <translation>Estás seguro?</translation>
+    </message>
+    <message>
+        <location filename="login.cpp" line="9"/>
+        <source>Login</source>
+        <translation>Login</translation>
     </message>
 </context>
 <context>
@@ -86,97 +106,108 @@
     <message>
         <location filename="mainwindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>MainWindow</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="24"/>
         <location filename="mainwindow.ui" line="86"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar...</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="42"/>
         <source>Add...</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir...</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="49"/>
         <source>Delete...</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar...</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="56"/>
         <source>Modify...</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar...</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="63"/>
+        <location filename="mainwindow.cpp" line="130"/>
         <source>Unlock...</source>
-        <translation type="unfinished"></translation>
+        <translation>Desbloquear...</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="73"/>
         <location filename="mainwindow.ui" line="112"/>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="78"/>
         <location filename="mainwindow.ui" line="117"/>
         <location filename="mainwindow.cpp" line="153"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="95"/>
         <source>&gt; &gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt; &gt;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="102"/>
         <source>&lt; &lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt; &lt;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="159"/>
         <source>OUT</source>
-        <translation type="unfinished"></translation>
+        <translation>FUERA</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="176"/>
         <source>IN</source>
-        <translation type="unfinished"></translation>
+        <translation>DENTRO</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="197"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Archivo</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="203"/>
         <source>&amp;Log</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Registro</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="212"/>
         <source>E&amp;xit</source>
         <oldsource>&amp;Exit</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Salir</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="215"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="223"/>
         <source>&amp;Info</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Info</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="226"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="28"/>
+        <source>Access Control</source>
+        <translation>Control de Acceso</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="119"/>
+        <source>Lock</source>
+        <translation>Bloquear</translation>
     </message>
 </context>
 </TS>

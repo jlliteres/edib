@@ -27,7 +27,7 @@ void Log::load(QStringList listName, QStringList listEnter, QStringList listExit
 
     /// Restart table and set headers
     table->setRowCount(0);
-    table->setHorizontalHeaderLabels(QStringList() << "Name" << "enter_time" << "exit_time");
+    table->setHorizontalHeaderLabels(QStringList() << tr("Name") << tr("enter_time") << tr("exit_time"));
 
     for(QString user : listName)
     {
