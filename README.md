@@ -1,12 +1,16 @@
-# EDIB C++ project (en desarrollo)
+# EDIB C++ project github.com/jlliteres/edib (en desarrollo)
 Control de acceso de trabajadores para una empresa.
 
 ## Idea
 #### Client-Server-Database
 Se pretende crear un control de acceso instalable en cualquier dispositivo, que permita a los trabajadores registrar su entrada y salida de la empresa de una manera sencilla y visual. Se desarrolla también un servidor que gestiona las peticiones y se comunica con la base de datos, haciendo uso de JSON y WebSocket.
 
+La base de datos viene con información para poder probar la aplicación:
+- Administrador: admin Contraseña: admin
+- Josep Lliteres Contraseña: 1234
+
 ## Cómo funciona
-#### **Todos los mensajes de respuesta del servidor son _parseados_ para comprobar que son JSON válidos. Se usa un [handler](access_control_client/handler.cpp) para determinar el _action_ de la respuesta y realizar la función correspondiente** 
+#### **Todos los mensajes de respuesta del servidor son _parseados_ para comprobar que son JSON válidos. Se usa un [handler](access_control_client/handler.cpp) para determinar el _action_ de la respuesta y realizar la función correspondiente**
 
 ### Cliente
 1. Inicia la conexión con el servidor.
