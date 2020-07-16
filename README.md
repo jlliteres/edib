@@ -7,7 +7,7 @@ Se pretende crear un control de acceso instalable en cualquier dispositivo, que 
 
 La base de datos viene con información para poder probar la aplicación:
 - Administrador: admin Contraseña: admin
-- Josep Lliteres Contraseña: 1234
+- Trabajador: Josep Lliteres Contraseña: 1234
 
 ## Cómo funciona
 #### **Todos los mensajes de respuesta del servidor son _parseados_ para comprobar que son JSON válidos. Se usa un [handler](access_control_client/handler.cpp) para determinar el _action_ de la respuesta y realizar la función correspondiente**
